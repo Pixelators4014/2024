@@ -6,6 +6,12 @@
 
 #include <numbers>
 
+#include <ctre/phoenix6/CANcoder.hpp>
+#include <ctre/phoenix6/TalonFX.hpp>
+#include <ctre/phoenix6/controls/PositionVoltage.hpp>
+#include <ctre/phoenix6/controls/DutyCycleOut.hpp>
+#include <ctre/phoenix6/controls/VelocityVoltage.hpp>
+#include <ctre/phoenix6/controls/PositionVoltage.hpp>
 #include <frc/Encoder.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
@@ -18,39 +24,29 @@
 #include <units/velocity.h>
 #include <units/voltage.h>
 
-class SwerveModule {
- public:
-  SwerveModule(int driveMotorChannel, int turningMotorChannel,
-               int driveEncoderChannelA, int driveEncoderChannelB,
-               int turningEncoderChannelA, int turningEncoderChannelB);
-  frc::SwerveModuleState GetState() const;
-  frc::SwerveModulePosition GetPosition() const;
-  void SetDesiredState(const frc::SwerveModuleState& state);
+class SwerveModule
+{
+public:
+    SwerveModule(int driveMotorID, int turningMotorID, int cancoderID, units::angle::turn_t angleOffset);
+    frc::SwerveModuleState GetState();
+    frc::SwerveModulePosition GetPosition();
+    void SetDesiredState(const frc::SwerveModuleState &state);
 
- private:
-  static constexpr double kWheelRadius = 0.0508;
-  static constexpr int kEncoderResolution = 4096;
+private:
+    static constexpr units::meter_t kWheelRadius = 0.0508_m;
+    static constexpr auto kTurnsToMeters = 2 * std::numbers::pi * kWheelRadius / 1_tr;
 
-  static constexpr auto kModuleMaxAngularVelocity =
-      std::numbers::pi * 1_rad_per_s;  // radians per second
-  static constexpr auto kModuleMaxAngularAcceleration =
-      std::numbers::pi * 2_rad_per_s / 1_s;  // radians per second^2
+    static constexpr auto kModuleMaxAngularVelocity =
+        std::numbers::pi * 1_rad_per_s; // radians per second
+    static constexpr auto kModuleMaxAngularAcceleration =
+        std::numbers::pi * 2_rad_per_s / 1_s; // radians per second^2
 
-  frc::PWMSparkMax m_driveMotor;
-  frc::PWMSparkMax m_turningMotor;
+    ctre::phoenix6::hardware::CANcoder angleEncoder;
 
-  frc::Encoder m_driveEncoder;
-  frc::Encoder m_turningEncoder;
+    ctre::phoenix6::hardware::TalonFX m_driveMotor;
+    ctre::phoenix6::hardware::TalonFX m_turningMotor;
 
-  frc::PIDController m_drivePIDController{1.0, 0, 0};
-  frc::ProfiledPIDController<units::radians> m_turningPIDController{
-      1.0,
-      0.0,
-      0.0,
-      {kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration}};
+    ctre::phoenix6::controls::PositionVoltage anglePosition;
+    ctre::phoenix6::controls::DutyCycleOut driveDutyCycle;
 
-  frc::SimpleMotorFeedforward<units::meters> m_driveFeedforward{1_V,
-                                                                3_V / 1_mps};
-  frc::SimpleMotorFeedforward<units::radians> m_turnFeedforward{
-      1_V, 0.5_V / 1_rad_per_s};
 };

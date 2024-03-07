@@ -11,7 +11,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   auto states =
       m_kinematics.ToSwerveModuleStates(frc::ChassisSpeeds::Discretize(
           fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
-                              xSpeed, ySpeed, rot, m_gyro.GetRotation2d())
+                              xSpeed, ySpeed, rot, m_IMU.GetAngle())
                         : frc::ChassisSpeeds{xSpeed, ySpeed, rot},
           period));
 
@@ -26,7 +26,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
 }
 
 void Drivetrain::UpdateOdometry() {
-  m_odometry.Update(m_gyro.GetRotation2d(),
+  m_odometry.Update(m_IMU.GetAngle(),
                     {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                      m_backLeft.GetPosition(), m_backRight.GetPosition()});
 }

@@ -8,72 +8,82 @@
 
 #include <frc/geometry/Rotation2d.h>
 
-SwerveModule::SwerveModule(const int driveMotorChannel,
-                           const int turningMotorChannel,
-                           const int driveEncoderChannelA,
-                           const int driveEncoderChannelB,
-                           const int turningEncoderChannelA,
-                           const int turningEncoderChannelB)
-    : m_driveMotor(driveMotorChannel),
-      m_turningMotor(turningMotorChannel),
-      m_driveEncoder(driveEncoderChannelA, driveEncoderChannelB),
-      m_turningEncoder(turningEncoderChannelA, turningEncoderChannelB) {
-  // Set the distance per pulse for the drive encoder. We can simply use the
-  // distance traveled for one rotation of the wheel divided by the encoder
-  // resolution.
-  m_driveEncoder.SetDistancePerPulse(2 * std::numbers::pi * kWheelRadius /
-                                     kEncoderResolution);
+SwerveModule::SwerveModule(const int driveMotorID, const int turningMotorID, const int cancoderID, const units::angle::turn_t angleOffset)
+    : m_driveMotor(driveMotorID),
+      m_turningMotor(turningMotorID),
+      angleEncoder(cancoderID),
+      anglePosition(0_tr),
+      driveDutyCycle(0)
+{
+  ctre::phoenix6::configs::TalonFXConfiguration swerve_drive_FX_config = ctre::phoenix6::configs::TalonFXConfiguration();
+  ctre::phoenix6::configs::TalonFXConfiguration swerve_angle_FX_config = ctre::phoenix6::configs::TalonFXConfiguration();
+  ctre::phoenix6::configs::CANcoderConfiguration swerve_cancoder_config = ctre::phoenix6::configs::CANcoderConfiguration();
 
-  // Set the distance (in this case, angle) per pulse for the turning encoder.
-  // This is the the angle through an entire rotation (2 * std::numbers::pi)
-  // divided by the encoder resolution.
-  m_turningEncoder.SetDistancePerPulse(2 * std::numbers::pi /
-                                       kEncoderResolution);
+  swerve_cancoder_config.MagnetSensor.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
 
-  // Limit the PID Controller's input range between -pi and pi and set the input
-  // to be continuous.
-  m_turningPIDController.EnableContinuousInput(
-      -units::radian_t{std::numbers::pi}, units::radian_t{std::numbers::pi});
+  swerve_drive_FX_config.MotorOutput.Inverted = ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
+  swerve_drive_FX_config.MotorOutput.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
+
+  swerve_drive_FX_config.Feedback.SensorToMechanismRatio = 6.12;
+
+  swerve_drive_FX_config.CurrentLimits.SupplyCurrentLimitEnable = true;
+  swerve_drive_FX_config.CurrentLimits.SupplyCurrentLimit = 40;
+  swerve_drive_FX_config.CurrentLimits.SupplyCurrentThreshold = 40;
+  swerve_drive_FX_config.CurrentLimits.SupplyTimeThreshold = 0.1;
+
+  swerve_drive_FX_config.Slot0.kP = 1.0;
+  swerve_drive_FX_config.Slot0.kI = 0.0;
+  swerve_drive_FX_config.Slot0.kD = 0.0;
+
+  swerve_drive_FX_config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.1;
+  swerve_drive_FX_config.OpenLoopRamps.VoltageOpenLoopRampPeriod = 0.1;
+
+  swerve_drive_FX_config.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.1;
+  swerve_drive_FX_config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
+
+  swerve_angle_FX_config.MotorOutput.Inverted = ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
+
+  swerve_angle_FX_config.Feedback.SensorToMechanismRatio = 150.0 / 7.0;
+  swerve_angle_FX_config.ClosedLoopGeneral.ContinuousWrap = true;
+
+  swerve_angle_FX_config.CurrentLimits.SupplyCurrentLimitEnable = true;
+  swerve_angle_FX_config.CurrentLimits.SupplyCurrentLimit = 40;
+  swerve_angle_FX_config.CurrentLimits.SupplyCurrentThreshold = 40;
+  swerve_angle_FX_config.CurrentLimits.SupplyTimeThreshold = 0.1;
+
+  swerve_angle_FX_config.Slot0.kP = 1.0;
+  swerve_angle_FX_config.Slot0.kI = 0.0;
+  swerve_angle_FX_config.Slot0.kD = 0.0;
+
+  m_driveMotor.GetConfigurator().Apply(swerve_drive_FX_config);
+  m_turningMotor.GetConfigurator().Apply(swerve_angle_FX_config);
+  angleEncoder.GetConfigurator().Apply(swerve_cancoder_config);
+
+  m_turningMotor.SetPosition(angleEncoder.GetAbsolutePosition().GetValue() - angleOffset);
+
+  m_driveMotor.GetConfigurator().SetPosition(0_rad);
 }
 
-frc::SwerveModuleState SwerveModule::GetState() const {
-  return {units::meters_per_second_t{m_driveEncoder.GetRate()},
-          units::radian_t{m_turningEncoder.GetDistance()}};
+frc::SwerveModuleState SwerveModule::GetState()
+{ 
+  return {m_driveMotor.GetVelocity().GetValue() * kTurnsToMeters,
+        m_turningMotor.GetPosition().GetValue()};
 }
 
-frc::SwerveModulePosition SwerveModule::GetPosition() const {
-  return {units::meter_t{m_driveEncoder.GetDistance()},
-          units::radian_t{m_turningEncoder.GetDistance()}};
+frc::SwerveModulePosition SwerveModule::GetPosition()
+{
+  return frc::SwerveModulePosition(m_driveMotor.GetPosition().GetValue() * kTurnsToMeters,
+          m_turningMotor.GetPosition().GetValue());
 }
 
 void SwerveModule::SetDesiredState(
-    const frc::SwerveModuleState& referenceState) {
-  frc::Rotation2d encoderRotation{
-      units::radian_t{m_turningEncoder.GetDistance()}};
+    const frc::SwerveModuleState &referenceState)
+{
 
-  // Optimize the reference state to avoid spinning further than 90 degrees
-  auto state =
-      frc::SwerveModuleState::Optimize(referenceState, encoderRotation);
+  const units::angle::turn_t angle = m_turningMotor.GetPosition().GetValue();
 
-  // Scale speed by cosine of angle error. This scales down movement
-  // perpendicular to the desired direction of travel that can occur when
-  // modules change directions. This results in smoother driving.
-  state.speed *= (state.angle - encoderRotation).Cos();
+  frc::SwerveModuleState state = frc::SwerveModuleState::Optimize(referenceState, angle);
 
-  // Calculate the drive output from the drive PID controller.
-  const auto driveOutput = m_drivePIDController.Calculate(
-      m_driveEncoder.GetRate(), state.speed.value());
-
-  const auto driveFeedforward = m_driveFeedforward.Calculate(state.speed);
-
-  // Calculate the turning motor output from the turning PID controller.
-  const auto turnOutput = m_turningPIDController.Calculate(
-      units::radian_t{m_turningEncoder.GetDistance()}, state.angle.Radians());
-
-  const auto turnFeedforward = m_turnFeedforward.Calculate(
-      m_turningPIDController.GetSetpoint().velocity);
-
-  // Set the motor outputs.
-  m_driveMotor.SetVoltage(units::volt_t{driveOutput} + driveFeedforward);
-  m_turningMotor.SetVoltage(units::volt_t{turnOutput} + turnFeedforward);
+  m_turningMotor.SetControl(anglePosition.WithPosition(state.angle.Degrees() * 360));
+  m_driveMotor.SetControl(driveDutyCycle.WithOutput(state.speed / 3.0_mps)); // TODO
 }
