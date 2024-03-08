@@ -8,7 +8,7 @@
 
 #include <frc/geometry/Rotation2d.h>
 
-SwerveModule::SwerveModule(const int driveMotorID, const int turningMotorID, const int cancoderID, const units::angle::turn_t angleOffset)
+SwerveModule::SwerveModule(const int turningMotorID, const int driveMotorID, const int cancoderID, const units::angle::turn_t angleOffset)
     : m_driveMotor(driveMotorID),
       m_turningMotor(turningMotorID),
       angleEncoder(cancoderID),
@@ -19,10 +19,10 @@ SwerveModule::SwerveModule(const int driveMotorID, const int turningMotorID, con
   ctre::phoenix6::configs::TalonFXConfiguration swerve_angle_FX_config = ctre::phoenix6::configs::TalonFXConfiguration();
   ctre::phoenix6::configs::CANcoderConfiguration swerve_cancoder_config = ctre::phoenix6::configs::CANcoderConfiguration();
 
-  swerve_cancoder_config.MagnetSensor.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+  // swerve_cancoder_config.MagnetSensor.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
 
-  swerve_drive_FX_config.MotorOutput.Inverted = ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
-  swerve_drive_FX_config.MotorOutput.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
+  // swerve_drive_FX_config.MotorOutput.Inverted = ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
+  // swerve_drive_FX_config.MotorOutput.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
 
   swerve_drive_FX_config.Feedback.SensorToMechanismRatio = 6.12;
 
@@ -35,23 +35,23 @@ SwerveModule::SwerveModule(const int driveMotorID, const int turningMotorID, con
   swerve_drive_FX_config.Slot0.kI = 0.0;
   swerve_drive_FX_config.Slot0.kD = 0.0;
 
-  swerve_drive_FX_config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.1;
-  swerve_drive_FX_config.OpenLoopRamps.VoltageOpenLoopRampPeriod = 0.1;
+  // swerve_drive_FX_config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.1;
+  // swerve_drive_FX_config.OpenLoopRamps.VoltageOpenLoopRampPeriod = 0.1;
 
-  swerve_drive_FX_config.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.1;
-  swerve_drive_FX_config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
+  // swerve_drive_FX_config.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.1;
+  // swerve_drive_FX_config.ClosedLoopRamps.VoltageClosedLoopRampPeriod = 0.1;
 
-  swerve_angle_FX_config.MotorOutput.Inverted = ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
+  // swerve_angle_FX_config.MotorOutput.Inverted = ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 
   swerve_angle_FX_config.Feedback.SensorToMechanismRatio = 150.0 / 7.0;
   swerve_angle_FX_config.ClosedLoopGeneral.ContinuousWrap = true;
 
-  swerve_angle_FX_config.CurrentLimits.SupplyCurrentLimitEnable = true;
-  swerve_angle_FX_config.CurrentLimits.SupplyCurrentLimit = 40;
-  swerve_angle_FX_config.CurrentLimits.SupplyCurrentThreshold = 40;
-  swerve_angle_FX_config.CurrentLimits.SupplyTimeThreshold = 0.1;
+  // swerve_angle_FX_config.CurrentLimits.SupplyCurrentLimitEnable = true;
+  // swerve_angle_FX_config.CurrentLimits.SupplyCurrentLimit = 40;
+  // swerve_angle_FX_config.CurrentLimits.SupplyCurrentThreshold = 40;
+  // swerve_angle_FX_config.CurrentLimits.SupplyTimeThreshold = 0.1;
 
-  swerve_angle_FX_config.Slot0.kP = 1.0;
+  swerve_angle_FX_config.Slot0.kP = 24.0;
   swerve_angle_FX_config.Slot0.kI = 0.0;
   swerve_angle_FX_config.Slot0.kD = 0.0;
 
@@ -84,6 +84,6 @@ void SwerveModule::SetDesiredState(
 
   frc::SwerveModuleState state = frc::SwerveModuleState::Optimize(referenceState, angle);
 
-  m_turningMotor.SetControl(anglePosition.WithPosition(state.angle.Degrees() * 360));
+  m_turningMotor.SetControl(anglePosition.WithPosition(state.angle.Radians()));
   m_driveMotor.SetControl(driveDutyCycle.WithOutput(state.speed / 3.0_mps)); // TODO
 }

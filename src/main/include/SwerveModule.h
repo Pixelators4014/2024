@@ -27,7 +27,7 @@
 class SwerveModule
 {
 public:
-    SwerveModule(int driveMotorID, int turningMotorID, int cancoderID, units::angle::turn_t angleOffset);
+    SwerveModule(int turningMotorID, int driveMotorID, int cancoderID, units::angle::turn_t angleOffset);
     frc::SwerveModuleState GetState();
     frc::SwerveModulePosition GetPosition();
     void SetDesiredState(const frc::SwerveModuleState &state);
