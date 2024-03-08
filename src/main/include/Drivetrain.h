@@ -40,10 +40,10 @@ class Drivetrain {
   frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
   frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
 
-    SwerveModule m_frontLeft{1, 2, 11, -.43_tr};
-    SwerveModule m_frontRight{3, 4, 12, -.06_tr};
-    SwerveModule m_backLeft{5, 6, 13, -.489_tr};
-    SwerveModule m_backRight{7, 8, 14, -.45_tr};
+    SwerveModule m_backLeft{1, 2, 11, -0.18_tr};
+    SwerveModule m_frontLeft{3, 4, 12, -0.31_tr};
+    SwerveModule m_frontRight{5, 6, 13, .262_tr};
+    SwerveModule m_backRight{7, 8, 14, -0.223_tr};
 
   frc::ADIS16470_IMU m_IMU;
 
