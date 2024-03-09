@@ -71,7 +71,7 @@ static constexpr auto KAngleSlot0kI = 0.0;
 static constexpr auto KAngleSlot0kD = 0.0;
 
 static constexpr auto kMaxSpeed =
-      3.0_mps;
+      5.2_mps;
 static constexpr units::radians_per_second_t kMaxAngularSpeed{
     std::numbers::pi};
 static constexpr auto kRobotRadius = 0.381_m;
@@ -86,17 +86,14 @@ static constexpr auto kBackLeftTurningMotorID = 1;
 static constexpr auto kBackLeftDriveMotorID = 2;
 static constexpr auto kBackLeftCancoderID = 11;
 static constexpr auto kBackLeftAngleOffset = -0.18_tr;
-
 static constexpr auto kFrontLeftTurningMotorID = 3;
 static constexpr auto kFrontLeftDriveMotorID = 4;
 static constexpr auto kFrontLeftCancoderID = 12;
 static constexpr auto kFrontLeftAngleOffset = -0.31_tr;
-
 static constexpr auto kFrontRightTurningMotorID = 5;
 static constexpr auto kFrontRightDriveMotorID = 6;
 static constexpr auto kFrontRightCancoderID = 13;
 static constexpr auto kFrontRightAngleOffset = 0.262_tr;
-
 static constexpr auto kBackRightTurningMotorID = 7;
 static constexpr auto kBackRightDriveMotorID = 8;
 static constexpr auto kBackRightCancoderID = 14;
