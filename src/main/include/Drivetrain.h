@@ -6,44 +6,40 @@
 
 #include <numbers>
 
-
-// #include <frc/AnalogGyro.h>
 #include <frc/ADIS16470_IMU.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 
 #include "SwerveModule.h"
+#include "Constants.h"
 
 /**
  * Represents a swerve drive style drivetrain.
  */
-class Drivetrain {
- public:
-  Drivetrain() { 
+class Drivetrain
+{
+public:
+  Drivetrain()
+  {
     m_IMU.Reset();
-    }
+  }
 
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
              bool fieldRelative, units::second_t period);
   void UpdateOdometry();
 
-  static constexpr units::meters_per_second_t kMaxSpeed =
-      3.0_mps;  // 3 meters per second
-  static constexpr units::radians_per_second_t kMaxAngularSpeed{
-      std::numbers::pi};  // 1/2 rotation per second
+private:
+  frc::Translation2d m_frontLeftLocation{kRobotRadius, kRobotRadius};
+  frc::Translation2d m_frontRightLocation{kRobotRadius, -kRobotRadius};
+  frc::Translation2d m_backLeftLocation{-kRobotRadius, kRobotRadius};
+  frc::Translation2d m_backRightLocation{-kRobotRadius, -kRobotRadius};
 
- private:
-  frc::Translation2d m_frontLeftLocation{+0.381_m, +0.381_m};
-  frc::Translation2d m_frontRightLocation{+0.381_m, -0.381_m};
-  frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
-  frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
-
-    SwerveModule m_backLeft{1, 2, 11, -0.18_tr};
-    SwerveModule m_frontLeft{3, 4, 12, -0.31_tr};
-    SwerveModule m_frontRight{5, 6, 13, .262_tr};
-    SwerveModule m_backRight{7, 8, 14, -0.223_tr};
+  SwerveModule m_backLeft{kBackLeftTurningMotorID, kBackLeftDriveMotorID, kBackLeftCancoderID, kBackLeftAngleOffset};
+  SwerveModule m_frontLeft{kFrontLeftTurningMotorID, kFrontLeftDriveMotorID, kFrontLeftCancoderID, kFrontLeftAngleOffset};
+  SwerveModule m_frontRight{kFrontRightTurningMotorID, kFrontRightDriveMotorID, kFrontRightCancoderID, kFrontRightAngleOffset};
+  SwerveModule m_backRight{kBackRightTurningMotorID, kBackRightDriveMotorID, kBackRightCancoderID, kBackRightAngleOffset};
 
   frc::ADIS16470_IMU m_IMU;
 
