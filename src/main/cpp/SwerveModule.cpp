@@ -54,6 +54,9 @@ SwerveModule::SwerveModule(const int turningMotorID, const int driveMotorID, con
   swerve_angle_FX_config.Slot0.kI = KAngleSlot0kI;
   swerve_angle_FX_config.Slot0.kD = KAngleSlot0kD;
 
+  anglePosition.EnableFOC = EnableFOC;
+  driveDutyCycle.EnableFOC = EnableFOC;
+
   m_driveMotor.GetConfigurator().Apply(swerve_drive_FX_config);
   m_turningMotor.GetConfigurator().Apply(swerve_angle_FX_config);
   angleEncoder.GetConfigurator().Apply(swerve_cancoder_config);
