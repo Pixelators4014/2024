@@ -36,10 +36,10 @@ private:
     static constexpr units::meter_t kWheelRadius = 0.0508_m;
     static constexpr auto kTurnsToMeters = 2 * std::numbers::pi * kWheelRadius / 1_tr;
 
-    static constexpr auto kModuleMaxAngularVelocity =
-        std::numbers::pi * 1_rad_per_s; // radians per second
-    static constexpr auto kModuleMaxAngularAcceleration =
-        std::numbers::pi * 2_rad_per_s / 1_s; // radians per second^2
+    // static constexpr auto kModuleMaxAngularVelocity =
+        // std::numbers::pi * 1_rad_per_s; // radians per second
+    // static constexpr auto kModuleMaxAngularAcceleration =
+        // std::numbers::pi * 2_rad_per_s / 1_s; // radians per second^2
 
     ctre::phoenix6::hardware::CANcoder angleEncoder;
 

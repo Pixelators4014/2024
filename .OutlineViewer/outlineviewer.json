@@ -1,1 +1,11 @@
-{}
+{
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "4014"
+  },
+  "transitory": {
+    "SmartDashboard": {
+      "open": true
+    }
+  }
+}

@@ -22,6 +22,7 @@ class Robot : public frc::TimedRobot {
  private:
   // frc::XboxController m_controller{0};
   frc::Joystick m_controller{0};
+  // frc::XboxController m_operator{1};
   Drivetrain m_swerve;
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0
