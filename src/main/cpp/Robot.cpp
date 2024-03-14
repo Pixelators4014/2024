@@ -2,62 +2,81 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include <frc/MathUtil.h>
-#include <frc/TimedRobot.h>
-#include <frc/XboxController.h>
-#include <frc/Joystick.h>
-#include <frc/filter/SlewRateLimiter.h>
+#include "Robot.h"
 
-#include "Drivetrain.h"
+#include <frc2/command/CommandScheduler.h>
 
-class Robot : public frc::TimedRobot
+void Robot::RobotInit() {}
+
+/**
+ * This function is called every 20 ms, no matter the mode. Use
+ * this for items like diagnostics that you want to run during disabled,
+ * autonomous, teleoperated and test.
+ *
+ * <p> This runs after the mode specific periodic functions, but before
+ * LiveWindow and SmartDashboard integrated updating.
+ */
+void Robot::RobotPeriodic()
 {
-public:
-  void AutonomousPeriodic() override
+  frc2::CommandScheduler::GetInstance().Run();
+}
+
+/**
+ * This function is called once each time the robot enters Disabled mode. You
+ * can use it to reset any subsystem information you want to clear when the
+ * robot is disabled.
+ */
+void Robot::DisabledInit() {}
+
+void Robot::DisabledPeriodic() {}
+
+/**
+ * This autonomous runs the autonomous command selected by your {@link
+ * RobotContainer} class.
+ */
+void Robot::AutonomousInit()
+{
+  m_autonomousCommand = m_container.GetAutonomousCommand();
+
+  if (m_autonomousCommand)
   {
-    // DriveWithJoystick(true);
-    // m_swerve.UpdateOdometry();
+    m_autonomousCommand->Schedule();
   }
+}
 
-  void TeleopPeriodic() override { DriveWithJoystick(kFieldRelative); }
+void Robot::AutonomousPeriodic() {}
 
-private:
-  // frc::XboxController m_controller{0};
-  frc::Joystick m_controller{kControllerPort};
-  Drivetrain m_swerve;
-
-  // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0
-  // to 1.
-  frc::SlewRateLimiter<units::scalar> m_xspeedLimiter{KSlewRate};
-  frc::SlewRateLimiter<units::scalar> m_yspeedLimiter{KSlewRate};
-  frc::SlewRateLimiter<units::scalar> m_rotLimiter{KSlewRate};
-
-  void DriveWithJoystick(bool fieldRelative)
+void Robot::TeleopInit()
+{
+  // This makes sure that the autonomous stops running when
+  // teleop starts running. If you want the autonomous to
+  // continue until interrupted by another command, remove
+  // this line or comment it out.
+  if (m_autonomousCommand)
   {
-    // Get the x speed. We are inverting this because Xbox controllers return
-    // negative values when we push forward.
-    const auto xSpeed = -m_xspeedLimiter.Calculate(
-                            frc::ApplyDeadband(m_controller.GetY(), KDeadband)) *
-                        kMaxSpeed;
-
-    // Get the y speed or sideways/strafe speed. We are inverting this because
-    // we want a positive value when we pull to the left. Xbox controllers
-    // return positive values when you pull to the right by default.
-    const auto ySpeed = -m_yspeedLimiter.Calculate(
-                            frc::ApplyDeadband(m_controller.GetX(), KDeadband)) *
-                        kMaxSpeed;
-
-    // Get the rate of angular rotation. We are inverting this because we want a
-    // positive value when we pull to the left (remember, CCW is positive in
-    // mathematics). Xbox controllers return positive values when you pull to
-    // the right by default.
-    const auto rot = -m_rotLimiter.Calculate(
-                         frc::ApplyDeadband(m_controller.GetZ(), KDeadband)) *
-                     kMaxAngularSpeed;
-
-    m_swerve.Drive(xSpeed, ySpeed, rot, fieldRelative, GetPeriod());
+    m_autonomousCommand->Cancel();
   }
-};
+}
+
+/**
+ * This function is called periodically during operator control.
+ */
+void Robot::TeleopPeriodic() {}
+
+/**
+ * This function is called periodically during test mode.
+ */
+void Robot::TestPeriodic() {}
+
+/**
+ * This function is called once when the robot is first started up.
+ */
+void Robot::SimulationInit() {}
+
+/**
+ * This function is called periodically whilst in simulation.
+ */
+void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main()

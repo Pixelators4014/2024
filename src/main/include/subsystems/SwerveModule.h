@@ -13,7 +13,6 @@
 #include <frc/kinematics/SwerveModulePosition.h>
 #include <frc/kinematics/SwerveModuleState.h>
 
-
 class SwerveModule
 {
 public:
