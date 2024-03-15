@@ -5,6 +5,7 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
+#include <frc/Joystick.h>
 
 #include "subsystems/Drivetrain.h"
 
@@ -24,6 +25,7 @@ public:
 
 private:
     Drivetrain m_swerve;
+    frc::Joystick m_controller{kControllerPort};
 
     std::unique_ptr<frc2::Command> exampleAuto;
     std::unique_ptr<frc2::Command> pathfindToPickup;
