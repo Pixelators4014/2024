@@ -21,28 +21,28 @@ RobotContainer::RobotContainer()
     // NamedCommands::registerCommand("marker2", frc2::cmd::Print("Passed marker 2"));
     // NamedCommands::registerCommand("print hello", frc2::cmd::Print("hello"));
     m_swerve.SetDefaultCommand(frc2::RunCommand([this] {
-        //  const auto xSpeed = -frc::ApplyDeadband(m_controller.GetY(), KDeadband) *
-        //                 kMaxSpeed;
-         const auto xSpeed = m_controller.GetY()*
+         const auto xSpeed = -frc::ApplyDeadband(m_controller.GetY(), KDeadband) *
                         kMaxSpeed;
+        //  const auto xSpeed = m_controller.GetY()*
+        //                 kMaxSpeed;
                         
 
     // Get the y speed or sideways/strafe speed. We are inverting this because
     // we want a positive value when we pull to the left. Xbox controllers
     // return positive values when you pull to the right by default.
-    // const auto ySpeed = -frc::ApplyDeadband(m_controller.GetX(), KDeadband) *
-    //                     kMaxSpeed;
-    const auto ySpeed = -m_controller.GetX() *
+    const auto ySpeed = -frc::ApplyDeadband(m_controller.GetX(), KDeadband) *
                         kMaxSpeed;
+    // const auto ySpeed = -m_controller.GetX() *
+    //                     kMaxSpeed;
 
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
-    // const auto rot = -frc::ApplyDeadband(m_controller.GetZ(), KDeadband) *
-    //                  kMaxAngularSpeed;
-    const auto rot = -m_controller.GetZ() *
+    const auto rot = -frc::ApplyDeadband(m_controller.GetZ(), KDeadband) *
                      kMaxAngularSpeed;
+    // const auto rot = -m_controller.GetZ() *
+    //                  kMaxAngularSpeed;
     m_swerve.driveFieldRelative(frc::ChassisSpeeds{xSpeed, ySpeed, rot});
     },
     {&m_swerve}));
@@ -67,7 +67,7 @@ void RobotContainer::ConfigureBindings()
     //                        .Unwrap();
     // frc::SmartDashboard::PutData("Pathfind to Pickup Pos", pathfindToPickup.get());
     // pathfindToScore = AutoBuilder::pathfindToPose(
-    //                       frc::Pose2d(2.15_m, 3.0_m, frc::Rota5tion2d(180_deg)),
+    //                       frc::Pose2d(2.15_m, 3.0_m, frc::Rotation2d(180_deg)),
     //                       PathConstraints(4.0_mps, 4.0_mps_sq, 360_deg_per_s, 540_deg_per_s_sq),
     //                       0_mps,
     //                       0_m)
