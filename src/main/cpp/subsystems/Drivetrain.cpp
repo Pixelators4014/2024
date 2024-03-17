@@ -2,7 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "subsystems/Drivetrain.h"
 #include <frc/DriverStation.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
@@ -10,6 +9,8 @@
 #include <pathplanner/lib/util/PIDConstants.h>
 #include <pathplanner/lib/util/PathPlannerLogging.h>
 #include <pathplanner/lib/util/ReplanningConfig.h>
+
+#include "subsystems/Drivetrain.h"
 
 using namespace pathplanner;
 
