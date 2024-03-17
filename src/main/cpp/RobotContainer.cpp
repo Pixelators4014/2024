@@ -7,6 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/RunCommand.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
@@ -53,6 +54,10 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
+  frc2::JoystickButton(&m_controller, kIntakeDownButton).OnTrue(
+      frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns); }));
+  frc2::JoystickButton(&m_controller, kIntakeUpButton).OnTrue(
+      frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
   // // Add a button to run the example auto to SmartDashboard, this will also
   // be in the GetAutonomousCommand method below exampleAuto =
   // PathPlannerAuto("Example Auto").ToPtr().Unwrap();

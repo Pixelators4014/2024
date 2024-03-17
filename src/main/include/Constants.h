@@ -73,3 +73,10 @@ static constexpr auto kBackRightAngleOffset = -0.223_tr;
 static constexpr auto kLeftArmMotorID = 21;
 static constexpr auto kRightArmMotorID = 22;
 static constexpr auto kArmGearRatio = 1.0; // TODO: Calculate this
+static constexpr auto kArmUpTurns = .5_tr;
+static constexpr auto kArmDownTurns = 0.0_tr;
+
+static constexpr auto kIntakeUpButton = 1;
+static constexpr auto kIntakeDownButton = 2;
+
+static constexpr auto kGrabberButton = 3;

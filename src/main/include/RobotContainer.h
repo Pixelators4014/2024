@@ -8,6 +8,7 @@
 #include <frc2/command/CommandPtr.h>
 
 #include "subsystems/Drivetrain.h"
+#include "subsystems/Arm.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -24,6 +25,7 @@ public:
 
 private:
   Drivetrain m_swerve;
+  Arm m_arm;
   frc::Joystick m_controller{kControllerPort};
 
   std::unique_ptr<frc2::Command> exampleAuto;
