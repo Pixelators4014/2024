@@ -72,5 +72,4 @@ static constexpr auto kBackRightAngleOffset = -0.223_tr;
 
 static constexpr auto kLeftArmMotorID = 21;
 static constexpr auto kRightArmMotorID = 22;
-
-static constexpr auto EnableFOC = false;
+static constexpr auto kArmGearRatio = 1.0; // TODO: Calculate this
