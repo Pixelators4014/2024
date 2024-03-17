@@ -1,5 +1,10 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <units/velocity.h>
+#if !defined(MYLIB_CONSTANTS_H)
+#define MYLIB_CONSTANTS_H 1
+
+const int a = 100;
+const int b = 0x7f;
 
 static constexpr auto KSlewRate = 3 / 1_s;
 static constexpr auto KDeadband = 0.05;
@@ -80,3 +85,4 @@ static constexpr auto kIntakeUpButton = 1;
 static constexpr auto kIntakeDownButton = 2;
 
 static constexpr auto kGrabberButton = 3;
+#endif
