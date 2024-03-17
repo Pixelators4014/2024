@@ -3,8 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Arm.h"
+#include "units/angle.h"
 
-Arm::Arm() = default;
+Arm::Arm()
+    : m_leftMotor(kLeftArmMotorID), m_rightMotor(kRightArmMotorID),
+      anglePosition(0_tr) {}
+
+void Arm::SetDesiredPosition(units::angle::turn_t turns) {
+  m_leftMotor.SetControl(anglePosition.WithPosition(turns));
+  m_rightMotor.SetControl(anglePosition.WithPosition(turns));
+}
+
+units::angle::turn_t Arm::GetPosition() {
+  return m_leftMotor.GetPosition().GetValue();
+}
 
 // This method will be called once per scheduler run
 void Arm::Periodic() {}

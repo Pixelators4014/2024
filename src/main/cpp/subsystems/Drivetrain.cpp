@@ -30,11 +30,11 @@ Drivetrain::Drivetrain() {
       }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
       HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should
                                    // likely live in your Constants class
-          PIDConstants(KDriveSlot0kP, KDriveSlot0kI,
-                       KDriveSlot0kD), // Translation PID constants
-          PIDConstants(KAngleSlot0kP, KAngleSlot0kI,
-                       KAngleSlot0kD), // Rotation PID constants
-          kMaxSpeed,                   // Max module speed, in m/s
+          PIDConstants(KDrivePathfinder0kD, KDrivePathfinder0kI,
+                       KDrivePathfinder0kD), // Translation PID constants
+          PIDConstants(KAnglePathfinder0kP, KAnglePathfinder0kI,
+                       KAnglePathfinder0kD), // Rotation PID constants
+          kMaxSpeed,                         // Max module speed, in m/s
           kRobotRadius,      // Drive base radius in meters. Distance from robot
                              // center to furthest module.
           ReplanningConfig() // Default path replanning config. See the API for

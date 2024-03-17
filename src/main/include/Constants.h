@@ -1,4 +1,5 @@
 #include <ctre/phoenix6/TalonFX.hpp>
+#include <units/velocity.h>
 
 static constexpr auto KSlewRate = 3 / 1_s;
 static constexpr auto KDeadband = 0.05;
@@ -33,6 +34,14 @@ static constexpr auto KAngleSlot0kP = 24.0;
 static constexpr auto KAngleSlot0kI = 0.0;
 static constexpr auto KAngleSlot0kD = 0.0;
 
+static constexpr auto KDrivePathfinder0kP = 5.0;
+static constexpr auto KDrivePathfinder0kI = 0.0;
+static constexpr auto KDrivePathfinder0kD = 0.0;
+
+static constexpr auto KAnglePathfinder0kP = 5.0;
+static constexpr auto KAnglePathfinder0kI = 0.0;
+static constexpr auto KAnglePathfinder0kD = 0.0;
+
 static constexpr auto kMaxSpeed = 5.2_mps;
 static constexpr units::radians_per_second_t kMaxAngularSpeed{std::numbers::pi};
 static constexpr auto kRobotRadius = 0.381_m;
@@ -60,5 +69,8 @@ static constexpr auto kBackRightTurningMotorID = 7;
 static constexpr auto kBackRightDriveMotorID = 8;
 static constexpr auto kBackRightCancoderID = 14;
 static constexpr auto kBackRightAngleOffset = -0.223_tr;
+
+static constexpr auto kLeftArmMotorID = 21;
+static constexpr auto kRightArmMotorID = 22;
 
 static constexpr auto EnableFOC = false;
