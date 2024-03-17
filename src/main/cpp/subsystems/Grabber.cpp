@@ -3,8 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Grabber.h"
+#include "Constants.h"
 
-Grabber::Grabber() = default;
+Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {}
+
+void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
+  m_motor.SetControl(driveDutyCycle.WithOutput(output));
+}
 
 // This method will be called once per scheduler run
 void Grabber::Periodic() {}
