@@ -4,29 +4,27 @@
 
 #pragma once
 
-#include <numbers>
-
 #include <ctre/phoenix6/CANcoder.hpp>
 #include <ctre/phoenix6/TalonFX.hpp>
-#include <ctre/phoenix6/controls/PositionVoltage.hpp>
 #include <ctre/phoenix6/controls/DutyCycleOut.hpp>
+#include <ctre/phoenix6/controls/PositionVoltage.hpp>
 #include <frc/kinematics/SwerveModulePosition.h>
 #include <frc/kinematics/SwerveModuleState.h>
 
-class SwerveModule
-{
+class SwerveModule {
 public:
-    SwerveModule(int turningMotorID, int driveMotorID, int cancoderID, units::angle::turn_t angleOffset);
-    frc::SwerveModuleState GetState();
-    frc::SwerveModulePosition GetPosition();
-    void SetDesiredState(const frc::SwerveModuleState &state);
+  SwerveModule(int turningMotorID, int driveMotorID, int cancoderID,
+               units::angle::turn_t angleOffset);
+  frc::SwerveModuleState GetState();
+  frc::SwerveModulePosition GetPosition();
+  void SetDesiredState(const frc::SwerveModuleState &state);
 
 private:
-    ctre::phoenix6::hardware::CANcoder angleEncoder;
+  ctre::phoenix6::hardware::TalonFX m_driveMotor;
+  ctre::phoenix6::hardware::TalonFX m_turningMotor;
 
-    ctre::phoenix6::hardware::TalonFX m_driveMotor;
-    ctre::phoenix6::hardware::TalonFX m_turningMotor;
+  ctre::phoenix6::hardware::CANcoder angleEncoder;
 
-    ctre::phoenix6::controls::PositionVoltage anglePosition;
-    ctre::phoenix6::controls::DutyCycleOut driveDutyCycle;
+  ctre::phoenix6::controls::PositionVoltage anglePosition;
+  ctre::phoenix6::controls::DutyCycleOut driveDutyCycle;
 };

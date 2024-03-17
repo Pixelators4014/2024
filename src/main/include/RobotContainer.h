@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <frc2/command/CommandPtr.h>
 #include <frc/Joystick.h>
+#include <frc2/command/CommandPtr.h>
 
 #include "subsystems/Drivetrain.h"
 
@@ -16,22 +16,21 @@
  * scheduler calls).  Instead, the structure of the robot (including subsystems,
  * commands, and trigger mappings) should be declared here.
  */
-class RobotContainer
-{
+class RobotContainer {
 public:
-    RobotContainer();
+  RobotContainer();
 
-    frc2::CommandPtr GetAutonomousCommand();
+  frc2::CommandPtr GetAutonomousCommand();
 
 private:
-    Drivetrain m_swerve;
-    frc::Joystick m_controller{kControllerPort};
+  Drivetrain m_swerve;
+  frc::Joystick m_controller{kControllerPort};
 
-    std::unique_ptr<frc2::Command> exampleAuto;
-    std::unique_ptr<frc2::Command> pathfindToPickup;
-    std::unique_ptr<frc2::Command> pathfindToScore;
-    std::unique_ptr<frc2::Command> onTheFly;
-    std::unique_ptr<frc2::Command> followOnTheFly;
+  std::unique_ptr<frc2::Command> exampleAuto;
+  std::unique_ptr<frc2::Command> pathfindToPickup;
+  std::unique_ptr<frc2::Command> pathfindToScore;
+  std::unique_ptr<frc2::Command> onTheFly;
+  std::unique_ptr<frc2::Command> followOnTheFly;
 
-    void ConfigureBindings();
+  void ConfigureBindings();
 };
