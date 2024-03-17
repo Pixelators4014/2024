@@ -54,10 +54,16 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-  frc2::JoystickButton(&m_controller, kIntakeDownButton).OnTrue(
-      frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns); }));
-  frc2::JoystickButton(&m_controller, kIntakeUpButton).OnTrue(
-      frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
+  frc2::JoystickButton(&m_controller, kIntakeDownButton)
+      .OnTrue(
+          frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns); }));
+  frc2::JoystickButton(&m_controller, kIntakeUpButton)
+      .OnTrue(
+          frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
+  frc2::JoystickButton(&m_controller, kGrabberButton)
+      .OnTrue(frc2::cmd::Run([this] { m_grabber.SetSpeed(kGabberSpeed); }));
+  frc2::JoystickButton(&m_controller, kGrabberButton)
+      .OnFalse(frc2::cmd::Run([this] { m_grabber.SetSpeed(0.0); }));
   // // Add a button to run the example auto to SmartDashboard, this will also
   // be in the GetAutonomousCommand method below exampleAuto =
   // PathPlannerAuto("Example Auto").ToPtr().Unwrap();

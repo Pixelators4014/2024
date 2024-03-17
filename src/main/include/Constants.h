@@ -83,4 +83,5 @@ static constexpr auto kIntakeDownButton = 2;
 
 static constexpr auto kGrabberButton = 3;
 static constexpr auto kGrabberMotorID = 31;
+static constexpr auto kGabberSpeed = 0.5;
 #endif
