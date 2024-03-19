@@ -10,7 +10,7 @@
 #include <networktables/NetworkTableInstance.h>
 
 #define PORT 1500
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 32
 
 class Orin : public frc2::SubsystemBase {
 public:
