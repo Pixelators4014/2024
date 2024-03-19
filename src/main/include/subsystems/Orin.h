@@ -5,8 +5,12 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <netinet/in.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
+
+#define PORT 1500
+#define BUFFER_SIZE 1024
 
 class Orin : public frc2::SubsystemBase {
 public:
@@ -18,8 +22,8 @@ public:
   void Periodic() override;
 
 private:
-  std::shared_ptr<nt::NetworkTable> table =
-      nt::NetworkTableInstance::GetDefault().GetTable("Orin");
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  int sockfd;
+  struct sockaddr_in servaddr, cliaddr;
+  char buffer[BUFFER_SIZE];
+  socklen_t len;
 };
