@@ -15,74 +15,74 @@
 using namespace pathplanner;
 
 Drivetrain::Drivetrain() {
-  m_IMU.Reset();
-  AutoBuilder::configureHolonomic(
-      [this]() { return GetPose(); }, // Robot pose supplier
-      [this](frc::Pose2d pose) {
-        ResetPose(pose);
-      }, // Method to reset odometry (will be called if your auto has a starting
-         // pose)
-      [this]() {
-        return GetSpeeds();
-      }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      [this](frc::ChassisSpeeds speeds) {
-        DriveRobotRelative(speeds);
-      }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-      HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should
-                                   // likely live in your Constants class
-          PIDConstants(KDrivePathfinder0kD, KDrivePathfinder0kI,
-                       KDrivePathfinder0kD), // Translation PID constants
-          PIDConstants(KAnglePathfinder0kP, KAnglePathfinder0kI,
-                       KAnglePathfinder0kD), // Rotation PID constants
-          kMaxSpeed,                         // Max module speed, in m/s
-          kRobotRadius,      // Drive base radius in meters. Distance from robot
-                             // center to furthest module.
-          ReplanningConfig() // Default path replanning config. See the API for
-                             // the options here
-          ),
-      []() {
-        // Boolean supplier that controls when the path will be mirrored for the
-        // red alliance This will flip the path being followed to the red side
-        // of the field. THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+    m_IMU.Reset();
+    AutoBuilder::configureHolonomic(
+            [this]() { return GetPose(); }, // Robot pose supplier
+            [this](frc::Pose2d pose) {
+                ResetPose(pose);
+            }, // Method to reset odometry (will be called if your auto has a starting
+            // pose)
+            [this]() {
+                return GetSpeeds();
+            }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            [this](frc::ChassisSpeeds speeds) {
+                DriveRobotRelative(speeds);
+            }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should
+                    // likely live in your Constants class
+                    PIDConstants(KDrivePathfinder0kD, KDrivePathfinder0kI,
+                                 KDrivePathfinder0kD), // Translation PID constants
+                    PIDConstants(KAnglePathfinder0kP, KAnglePathfinder0kI,
+                                 KAnglePathfinder0kD), // Rotation PID constants
+                    kMaxSpeed,                         // Max module speed, in m/s
+                    kRobotRadius,      // Drive base radius in meters. Distance from robot
+                    // center to furthest module.
+                    ReplanningConfig() // Default path replanning config. See the API for
+                    // the options here
+            ),
+            []() {
+                // Boolean supplier that controls when the path will be mirrored for the
+                // red alliance This will flip the path being followed to the red side
+                // of the field. THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-        auto alliance = frc::DriverStation::GetAlliance();
-        if (alliance) {
-          return alliance.value() == frc::DriverStation::Alliance::kRed;
-        }
-        return false;
-      },
-      this // Reference to this subsystem to set requirements
-  );
+                auto alliance = frc::DriverStation::GetAlliance();
+                if (alliance) {
+                    return alliance.value() == frc::DriverStation::Alliance::kRed;
+                }
+                return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
 
-  PathPlannerLogging::setLogActivePathCallback(
-      [this](auto poses) { this->field.GetObject("path")->SetPoses(poses); });
+    PathPlannerLogging::setLogActivePathCallback(
+            [this](auto poses) { this->field.GetObject("path")->SetPoses(poses); });
 
-  frc::SmartDashboard::PutData("Field", &field);
+    frc::SmartDashboard::PutData("Field", &field);
 }
 
 void Drivetrain::Periodic() {
-  UpdateOdometry();
+    UpdateOdometry();
 
-  field.SetRobotPose(GetPose());
+    field.SetRobotPose(GetPose());
 }
 
 void Drivetrain::DriveRobotRelative(
-    const frc::ChassisSpeeds &robotRelativeSpeeds) {
-  auto states = m_kinematics.ToSwerveModuleStates(
-      frc::ChassisSpeeds::Discretize(robotRelativeSpeeds, 0.02_s));
+        const frc::ChassisSpeeds &robotRelativeSpeeds) {
+    auto states = m_kinematics.ToSwerveModuleStates(
+            frc::ChassisSpeeds::Discretize(robotRelativeSpeeds, 0.02_s));
 
-  m_kinematics.DesaturateWheelSpeeds(&states, kMaxSpeed);
+    m_kinematics.DesaturateWheelSpeeds(&states, kMaxSpeed);
 
-  auto [fl, fr, bl, br] = states;
+    auto [fl, fr, bl, br] = states;
 
-  m_frontLeft.SetDesiredState(fl);
-  m_frontRight.SetDesiredState(fr);
-  m_backLeft.SetDesiredState(bl);
-  m_backRight.SetDesiredState(br);
+    m_frontLeft.SetDesiredState(fl);
+    m_frontRight.SetDesiredState(fr);
+    m_backLeft.SetDesiredState(bl);
+    m_backRight.SetDesiredState(br);
 }
 
 void Drivetrain::UpdateOdometry() {
-  m_odometry.Update(m_IMU.GetAngle(),
-                    {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                     m_backLeft.GetPosition(), m_backRight.GetPosition()});
+    m_odometry.Update(m_IMU.GetAngle(),
+                      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                       m_backLeft.GetPosition(), m_backRight.GetPosition()});
 }
