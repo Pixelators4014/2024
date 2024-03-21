@@ -6,16 +6,16 @@
 #include "units/angle.h"
 
 Arm::Arm()
-    : m_leftMotor(kLeftArmMotorID), m_rightMotor(kRightArmMotorID),
-      anglePosition(0_tr) {}
+        : m_leftMotor(kLeftArmMotorID), m_rightMotor(kRightArmMotorID),
+          anglePosition(0_tr) {}
 
 void Arm::SetDesiredPosition(units::angle::turn_t turns) {
-  m_leftMotor.SetControl(anglePosition.WithPosition(turns * kArmGearRatio));
-  m_rightMotor.SetControl(anglePosition.WithPosition(turns * kArmGearRatio));
+    m_leftMotor.SetControl(anglePosition.WithPosition(turns * kArmGearRatio));
+    m_rightMotor.SetControl(anglePosition.WithPosition(turns * kArmGearRatio));
 }
 
 units::angle::turn_t Arm::GetPosition() {
-  return m_leftMotor.GetPosition().GetValue() / kArmGearRatio;
+    return m_leftMotor.GetPosition().GetValue() / kArmGearRatio;
 }
 
 // This method will be called once per scheduler run
