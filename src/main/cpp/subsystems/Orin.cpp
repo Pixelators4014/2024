@@ -44,9 +44,9 @@ void Orin::Periodic() {
         return;
     }
 
-    unsigned header;
+    uint8_t header;
     float x, y, z, theta_w, theta_x, theta_y, theta_z;
-    memcpy(&header, buffer, sizeof(unsigned));
+    memcpy(&header, buffer, sizeof(uint8_t));
     memcpy(&x, buffer + 4, sizeof(float));
     memcpy(&y, buffer + 8, sizeof(float));
     memcpy(&z, buffer + 12, sizeof(float));
