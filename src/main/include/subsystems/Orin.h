@@ -12,18 +12,30 @@
 #define PORT 1500
 #define BUFFER_SIZE 32
 
+struct Pose {
+    float x;
+    float y;
+    float z;
+    float roll;
+    float pitch;
+    float yaw;
+};
+
 class Orin : public frc2::SubsystemBase {
 public:
-  Orin();
+    Orin();
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
+    /**
+     * Will be called periodically whenever the CommandScheduler runs.
+     */
+    void Periodic() override;
 
 private:
-  int sockfd;
-  struct sockaddr_in servaddr, cliaddr;
-  char buffer[BUFFER_SIZE];
-  socklen_t len;
+    int sockfd;
+    struct sockaddr_in servaddr, cliaddr;
+    Pose pose;
+    unsigned char buffer[BUFFER_SIZE];
+    socklen_t len;
+
+    Pose getPose();
 };

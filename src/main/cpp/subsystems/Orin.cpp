@@ -31,8 +31,8 @@ Orin::Orin() {
 }
 
 void Orin::Periodic() {
-    int n = recvfrom(sockfd, (char *)buffer, BUFFER_SIZE, MSG_WAITALL,
-                     (struct sockaddr *)&cliaddr, &len);
+    int n = recvfrom(sockfd, (char *) buffer, BUFFER_SIZE, MSG_WAITALL,
+                     (struct sockaddr *) &cliaddr, &len);
     if (n < 0) {
         std::cerr << "Receive failed" << std::endl;
         return;
@@ -67,4 +67,42 @@ void Orin::Periodic() {
     frc::SmartDashboard::PutNumber("theta_x", theta_x);
     frc::SmartDashboard::PutNumber("theta_y", theta_y);
     frc::SmartDashboard::PutNumber("theta_z", theta_z);
+}
+
+uint8_t Orin::getPose() {
+    uint8_t request[0] = [0];
+    // Send the request to the server
+    sendto(sockfd, (const char *) request, sizeof(request), MSG_CONFIRM,
+           (const struct sockaddr *) &servaddr, sizeof(servaddr));
+
+    // Receive the response from the server
+    int n = recvfrom(sockfd, (char *) buffer, BUFFER_SIZE, MSG_WAITALL,
+                     (struct sockaddr *) &cliaddr, &len);
+    if (n < 0) {
+        std::cerr << "Receive failed" << std::endl;
+        return nullptr;
+    }
+    buffer[n] = '\0'; // Null terminate the string
+    if (n < 25) {
+        std::cerr << "Not enough data received" << std::endl;
+        return 1;
+    }
+    if (buffer[0] != 255) {
+        std::cerr << "Invalid response" << std::endl;
+        return 1;
+    }
+    float x, y, z, roll, pitch, yaw;
+    memcpy(&x, buffer + 1, sizeof(float));
+    memcpy(&y, buffer + 5, sizeof(float));
+    memcpy(&z, buffer + 9, sizeof(float));
+    memcpy(&roll, buffer + 13, sizeof(float));
+    memcpy(&pitch, buffer + 17, sizeof(float));
+    memcpy(&yaw, buffer + 21, sizeof(float));
+    pose.x = x;
+    pose.y = y;
+    pose.z = z;
+    pose.roll = roll;
+    pose.pitch = pitch;
+    pose.yaw = yaw;
+    return 0;
 }
