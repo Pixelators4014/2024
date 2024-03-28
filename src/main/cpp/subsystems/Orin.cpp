@@ -69,7 +69,7 @@ void Orin::Periodic() {
     frc::SmartDashboard::PutNumber("theta_z", theta_z);
 }
 
-uint8_t Orin::getPose() {
+int Orin::getPose() {
     uint8_t request[0] = [0];
     // Send the request to the server
     sendto(sockfd, (const char *) request, sizeof(request), MSG_CONFIRM,
@@ -85,11 +85,15 @@ uint8_t Orin::getPose() {
     buffer[n] = '\0'; // Null terminate the string
     if (n < 25) {
         std::cerr << "Not enough data received" << std::endl;
-        return 1;
+        return 255;
     }
+    if (buffer[0] == 1) {
+        std::cerr << "Server error" << std::endl;
+        return 1;
+    } // TODO: Turn into string
     if (buffer[0] != 255) {
         std::cerr << "Invalid response" << std::endl;
-        return 1;
+        return 254;
     }
     float x, y, z, roll, pitch, yaw;
     memcpy(&x, buffer + 1, sizeof(float));
@@ -106,3 +110,36 @@ uint8_t Orin::getPose() {
     pose.yaw = yaw;
     return 0;
 }
+
+int Orin::setPose(Pose pose) {
+    uint8_t request[25];
+    request[0] = 255;
+    memcpy(request + 1, &pose.x, sizeof(float));
+    memcpy(request + 5, &pose.y, sizeof(float));
+    memcpy(request + 9, &pose.z, sizeof(float));
+    memcpy(request + 13, &pose.roll, sizeof(float));
+    memcpy(request + 17, &pose.pitch, sizeof(float));
+    memcpy(request + 21, &pose.yaw, sizeof(float));
+    // Send the request to the server
+    sendto(sockfd, (const char *) request, sizeof(request), MSG_CONFIRM,
+           (const struct sockaddr *) &servaddr, sizeof(servaddr));
+    // Receive the response from the server
+    int n = recvfrom(sockfd, (char *) buffer, BUFFER_SIZE, MSG_WAITALL,
+                     (struct sockaddr *) &cliaddr, &len);
+    if (n < 0) {
+        std::cerr << "Receive failed" << std::endl;
+        return 1;
+    }
+    buffer[n] = '\0'; // Null terminate the string
+    if (n < 1) {
+        std::cerr << "Not enough data received" << std::endl;
+        return 255;
+    }
+    if (buffer[0] != 0 && buffer[0] != 1) {
+        std::cerr << "Invalid response" << std::endl;
+        return 254;
+    } // TODO: Turn `1` into string
+
+    return buffer[0];
+}
+

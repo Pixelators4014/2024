@@ -37,5 +37,7 @@ private:
     unsigned char buffer[BUFFER_SIZE];
     socklen_t len;
 
-    Pose getPose();
+    int getPose();
+
+    int setPose(Pose pose);
 };
