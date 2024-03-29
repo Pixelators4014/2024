@@ -98,7 +98,7 @@ static constexpr auto kIntakeDownButton = 2;
 
 static constexpr auto kGrabberButton = 1;
 static constexpr auto kGrabberMotorID = 31;
-static constexpr auto kGabberSpeed = 0.5;
+static constexpr auto kGabberSpeed = 1.0;
 static constexpr auto KGrabberMotorInverted =
     ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 #endif

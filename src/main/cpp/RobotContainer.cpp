@@ -121,5 +121,5 @@ void RobotContainer::ConfigureBindings() {
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return PathPlannerAuto("Example Auto").ToPtr();
+  return PathPlannerAuto("New Auto").ToPtr();
 }
