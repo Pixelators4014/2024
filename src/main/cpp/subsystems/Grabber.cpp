@@ -5,7 +5,9 @@
 #include "subsystems/Grabber.h"
 #include "Constants.h"
 
-Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {}
+Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {
+  m_motor.SetInverted(KGrabberMotorInverted);
+}
 
 void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
   m_motor.SetControl(driveDutyCycle.WithOutput(output));

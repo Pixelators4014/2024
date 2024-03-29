@@ -41,7 +41,7 @@ RobotContainer::RobotContainer() {
         // want a positive value when we pull to the left (remember, CCW is
         // positive in mathematics). Xbox controllers return positive values
         // when you pull to the right by default.
-        const auto rot = -frc::ApplyDeadband(m_controller.GetZ(), KDeadband) *
+        const auto rot = -frc::ApplyDeadband(m_controller.GetRawAxis(5), KDeadband) *
                          kMaxAngularSpeed;
         // const auto rot = -m_controller.GetZ() *
         //                  kMaxAngularSpeed;
@@ -49,21 +49,28 @@ RobotContainer::RobotContainer() {
       },
       {&m_swerve}));
 
+  m_arm.SetDefaultCommand(frc2::RunCommand(
+      [this] {
+        // Get the z axis of the controller, then make 1 go to kArmDownTurns and -1 go to kArmUpTurns
+        m_arm.SetDesiredPosition((-m_controller.GetZ()+1.0)/2.0 * (kArmUpTurns - kArmDownTurns) + kArmDownTurns);
+      },
+      {&m_arm}));
+
   // Configure the button bindings
   ConfigureBindings();
 }
 
 void RobotContainer::ConfigureBindings() {
-  frc2::JoystickButton(&m_controller, kIntakeDownButton)
-      .OnTrue(
-          frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns); }));
-  frc2::JoystickButton(&m_controller, kIntakeUpButton)
-      .OnTrue(
-          frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
+  // frc2::JoystickButton(&m_controller, kIntakeDownButton)
+  //     .OnTrue(
+  //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns); }));
+  // frc2::JoystickButton(&m_controller, kIntakeUpButton)
+  //     .OnTrue(
+  //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
   frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnTrue(frc2::cmd::Run([this] { m_grabber.SetSpeed(kGabberSpeed); }));
+      .OnTrue(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(kGabberSpeed); }));
   frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnFalse(frc2::cmd::Run([this] { m_grabber.SetSpeed(0.0); }));
+      .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
   // // Add a button to run the example auto to SmartDashboard, this will also
   // be in the GetAutonomousCommand method below exampleAuto =
   // PathPlannerAuto("Example Auto").ToPtr().Unwrap();

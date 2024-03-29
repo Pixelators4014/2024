@@ -68,20 +68,37 @@ static constexpr auto kFrontRightDriveMotorID = 6;
 static constexpr auto kFrontRightCancoderID = 13;
 static constexpr auto kFrontRightAngleOffset = 0.262_tr;
 static constexpr auto kBackRightTurningMotorID = 7;
-static constexpr auto kBackRightDriveMotorID = 8;
+static constexpr auto kBackRightDriveMotorID = 8;   
 static constexpr auto kBackRightCancoderID = 14;
 static constexpr auto kBackRightAngleOffset = -0.223_tr;
 
 static constexpr auto kLeftArmMotorID = 21;
 static constexpr auto kRightArmMotorID = 22;
-static constexpr auto kArmGearRatio = 1.0; // TODO: Calculate this
-static constexpr auto kArmUpTurns = .5_tr;
+static constexpr auto kArmGearRatio = 35.0; // TODO: Calculate this
+static constexpr auto kArmUpTurns = .25_tr;
 static constexpr auto kArmDownTurns = 0.0_tr;
+static constexpr auto kLeftArmMotorInverted =
+    ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
+static constexpr auto kRightArmMotorInverted = ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive;
+static constexpr auto kArmSlot0kP = 12.0;
+static constexpr auto kArmSlot0kI = 0.0;
+static constexpr auto kArmSlot0kD = 0.0;
+static constexpr auto kArmNeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
+static constexpr auto kArmCurrentLimitEnable = true;
+static constexpr auto kArmCurrentLimit = 40;
+static constexpr auto kArmCurrentThreshold = 25;
+static constexpr auto kArmTimeThreshold = 0.1;
+static constexpr auto kArmDutyCycleOpenLoopRampPeriod = 0.1;
+static constexpr auto kArmVoltageOpenLoopRampPeriod = 0.1;
+static constexpr auto kArmDutyCycleClosedLoopRampPeriod = 0.1;
+static constexpr auto kArmVoltageClosedLoopRampPeriod = 0.1;
 
 static constexpr auto kIntakeUpButton = 1;
 static constexpr auto kIntakeDownButton = 2;
 
-static constexpr auto kGrabberButton = 3;
+static constexpr auto kGrabberButton = 1;
 static constexpr auto kGrabberMotorID = 31;
 static constexpr auto kGabberSpeed = 0.5;
+static constexpr auto KGrabberMotorInverted =
+    ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 #endif

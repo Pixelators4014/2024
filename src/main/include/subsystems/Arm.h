@@ -29,5 +29,6 @@ private:
     ctre::phoenix6::hardware::TalonFX m_leftMotor;
     ctre::phoenix6::hardware::TalonFX m_rightMotor;
 
-    ctre::phoenix6::controls::PositionVoltage anglePosition;
+    ctre::phoenix6::controls::PositionVoltage leftAnglePosition;
+    ctre::phoenix6::controls::PositionVoltage rightAnglePosition;
 };
