@@ -31,43 +31,13 @@ Orin::Orin() {
 }
 
 void Orin::Periodic() {
-  // int n = recvfrom(sockfd, (char *)buffer, BUFFER_SIZE, MSG_WAITALL,
-  //                  (struct sockaddr *)&cliaddr, &len);
-  // if (n < 0) {
-  //   std::cerr << "Receive failed" << std::endl;
-  //   return;
-  // }
-  // buffer[n] = '\0'; // Null terminate the string
-
-  // if (n < 32) {
-  //   std::cerr << "Not enough data received" << std::endl;
-  //   return;
-  // }
-
-  // uint8_t header;
-  // float x, y, z, theta_w, theta_x, theta_y, theta_z;
-  // memcpy(&header, buffer, sizeof(uint8_t));
-  // memcpy(&x, buffer + 4, sizeof(float));
-  // memcpy(&y, buffer + 8, sizeof(float));
-  // memcpy(&z, buffer + 12, sizeof(float));
-  // memcpy(&theta_w, buffer + 16, sizeof(float));
-  // memcpy(&theta_x, buffer + 20, sizeof(float));
-  // memcpy(&theta_y, buffer + 24, sizeof(float));
-  // memcpy(&theta_z, buffer + 28, sizeof(float));
-
-  // std::cout << "Received: "
-  //           << "x=" << x << ", y=" << y << ", z=" << z
-  //           << ", theta_w=" << theta_w << ", theta_x=" << theta_x
-  //           << ", theta_y=" << theta_y << ", theta_z=" << theta_z <<
-  //           std::endl;
-  // // Update the SmartDashboard values
-  // frc::SmartDashboard::PutNumber("x", x);
-  // frc::SmartDashboard::PutNumber("y", y);
-  // frc::SmartDashboard::PutNumber("z", z);
-  // frc::SmartDashboard::PutNumber("theta_w", theta_w);
-  // frc::SmartDashboard::PutNumber("theta_x", theta_x);
-  // frc::SmartDashboard::PutNumber("theta_y", theta_y);
-  // frc::SmartDashboard::PutNumber("theta_z", theta_z);
+  getPose();
+  frc::SmartDashboard::PutNumber("x", pose.x);
+  frc::SmartDashboard::PutNumber("y", pose.y);
+  frc::SmartDashboard::PutNumber("z", pose.z);
+  frc::SmartDashboard::PutNumber("roll", pose.roll);
+  frc::SmartDashboard::PutNumber("pitch", pose.pitch);
+  frc::SmartDashboard::PutNumber("yaw", pose.yaw);
 }
 
 int Orin::getPose() {
