@@ -45,7 +45,7 @@ int Orin::getPose() {
     request[0] = 0;
     // Send the request to the server
     if (send(sockfd, (const char *) request, sizeof(request), 0) < 0) {
-        std::cerr << "Send failed" << std::endl;
+//        std::cerr << "Send failed" << std::endl;
         return 1;
     }
 
