@@ -19,8 +19,8 @@ Orin::Orin() {
   memset(&cliaddr, 0, sizeof(cliaddr));
 
   // Filling server information
-  servaddr.sin_family = AF_INET;                         // IPv4
-  inet_pton(AF_INET, "10.40.14.49", &servaddr.sin_addr); // Set server IP here
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = INADDR_ANY; // localhost
   servaddr.sin_port = htons(PORT);
 
   // Bind the socket with the server address
