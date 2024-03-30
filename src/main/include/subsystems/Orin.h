@@ -9,7 +9,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 
-#define SERVER_TARGET_IP "10.40.14.49"
+#define SERVER_TARGET_IP "10.40.14.49" // TODO: Move to Constants.h
 #define SERVER_TARGET_PORT 5800
 #define BUFFER_SIZE 32
 
