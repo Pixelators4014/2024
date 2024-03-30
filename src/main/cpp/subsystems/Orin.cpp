@@ -44,8 +44,10 @@ int Orin::getPose() {
     uint8_t request[1];
     request[0] = 0;
     // Send the request to the server
-    sendto(sockfd, (const char *) request, sizeof(request), MSG_CONFIRM,
-           (const struct sockaddr *) &servaddr, sizeof(servaddr));
+    if (send(sockfd, (const char *) request, sizeof(request), 0) < 0) {
+        std::cerr << "Send failed" << std::endl;
+        return 1;
+    }
 
     // Receive the response from the server
     int n = recvfrom(sockfd, (char *) buffer, BUFFER_SIZE, MSG_WAITALL,
