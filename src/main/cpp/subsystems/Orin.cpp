@@ -6,7 +6,7 @@
 
 #include "subsystems/Orin.h"
 
-Orin::Orin() {}
+Orin::Orin() : a_socket{kn::endpoint(SERVER_TARGET_IP, SERVER_TARGET_PORT)} {}
 
 void Orin::Periodic() {
   getPose();
@@ -19,7 +19,6 @@ void Orin::Periodic() {
 }
 
 void Orin::getPose() {
-  kn::udp_socket a_socket(kn::endpoint(SERVER_TARGET_IP, SERVER_TARGET_PORT));
   kn::buffer<BUFFER_SIZE> buff;
   for (unsigned char i = 0; i < BUFFER_SIZE; i++)
     buff[i] = std::byte{i};
