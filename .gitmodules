@@ -1,0 +1,3 @@
+[submodule "src/main/include/kissnet"]
+	path = src/main/include/kissnet
+	url = https://github.com/Ybalrid/kissnet
