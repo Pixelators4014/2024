@@ -33,7 +33,7 @@ void Orin::getPose() {
     // const unsigned int *arr =
     // reinterpret_cast<const unsigned int *>(static_buffer.data());
     for (std::byte byte : static_buffer) {
-      std::cout << static_cast<char>(byte) << ", ";
+      std::cout << static_cast<int>(byte) << ", ";
     }
     std::cout << std::endl;
     // if (static_buffer[0] != std::byte{255}) {
