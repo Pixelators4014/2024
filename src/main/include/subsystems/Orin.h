@@ -18,29 +18,26 @@ namespace kn = kissnet;
 #define BUFFER_SIZE 32
 
 struct Pose {
-    float x;
-    float y;
-    float z;
-    float roll;
-    float pitch;
-    float yaw;
+  float x;
+  float y;
+  float z;
+  float roll;
+  float pitch;
+  float yaw;
 };
 
 class Orin : public frc2::SubsystemBase {
 public:
-    Orin();
+  Orin();
 
-    /**
-     * Will be called periodically whenever the CommandScheduler runs.
-     */
-    void Periodic() override;
+  /**
+   * Will be called periodically whenever the CommandScheduler runs.
+   */
+  void Periodic() override;
+  Pose pose;
 
 private:
-    Pose pose;
-
-    kn::udp_socket socket;
-
-    void getPose();
-
-    int setPose(Pose pose);
+  kn::udp_socket socket;
+  kn::buffer<1> send_buffer;
+  kn::buffer<BUFFER_SIZE> receive_buffer;
 };
