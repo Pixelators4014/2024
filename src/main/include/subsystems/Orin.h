@@ -10,6 +10,7 @@
 #include <networktables/NetworkTableInstance.h>
 
 #include <kissnet/kissnet.hpp>
+
 namespace kn = kissnet;
 
 #define SERVER_TARGET_IP "10.40.14.49"
@@ -17,30 +18,29 @@ namespace kn = kissnet;
 #define BUFFER_SIZE 32
 
 struct Pose {
-  float x;
-  float y;
-  float z;
-  float roll;
-  float pitch;
-  float yaw;
+    float x;
+    float y;
+    float z;
+    float roll;
+    float pitch;
+    float yaw;
 };
 
 class Orin : public frc2::SubsystemBase {
 public:
-  Orin();
+    Orin();
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
+    /**
+     * Will be called periodically whenever the CommandScheduler runs.
+     */
+    void Periodic() override;
 
 private:
-  Pose pose;
+    Pose pose;
 
-  kn::udp_socket socket;
-  kn::buffer<BUFFER_SIZE> buff;
+    kn::udp_socket socket;
 
-  void getPose();
+    void getPose();
 
-  int setPose(Pose pose);
+    int setPose(Pose pose);
 };
