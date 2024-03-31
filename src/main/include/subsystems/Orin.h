@@ -37,7 +37,7 @@ public:
 private:
   Pose pose;
 
-  kn::udp_socket a_socket;
+  kn::udp_socket socket;
   kn::buffer<BUFFER_SIZE> buff;
 
   void getPose();
