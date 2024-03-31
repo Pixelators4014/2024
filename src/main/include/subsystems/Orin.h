@@ -13,7 +13,7 @@
 
 namespace kn = kissnet;
 
-#define SERVER_TARGET_IP "10.40.14.49"
+#define SERVER_TARGET_IP "10.40.14.11"
 #define SERVER_TARGET_PORT 5800
 #define BUFFER_SIZE 32
 

@@ -25,10 +25,9 @@ void Orin::getPose() {
     std::cout << "Sending GetPose request" << std::endl;
     socket.send(reinterpret_cast<const std::byte*>(msg), 1);
     kn::buffer<4096> static_buffer;
-    while (true) { // TODO: Add a timeout to this loop
         if (socket.bytes_available() >= 25) {
-            std::count << "Received GetPose response" << std::endl;
-            const auto [data_size, status_code] = a_socket.recv(static_buffer);
+            std::cout << "Received GetPose response" << std::endl;
+            const auto [data_size, status_code] = socket.recv(static_buffer);
             const unsigned int *arr = reinterpret_cast<const unsigned int*>(static_buffer.data());
             float x;
             float y;
@@ -49,5 +48,4 @@ void Orin::getPose() {
             pose.pitch = pitch;
             pose.yaw = yaw;
         }
-    }
 }
