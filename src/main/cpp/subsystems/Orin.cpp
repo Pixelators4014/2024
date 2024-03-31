@@ -26,9 +26,9 @@ void Orin::getPose() {
   std::cout << "Sending GetPose request" << std::endl;
   socket.send(send_buffer);
   if (socket.bytes_available() >= 25) {
-    std::cout << "I see " << socket.bytes_available() << "avaliable bytes"
+    std::cout << "I see " << socket.bytes_available() << " avaliable bytes"
               << std::endl;
-    kn::buffer<32> static_buffer;
+    kn::buffer<512> static_buffer;
     const auto [data_size, status_code] = socket.recv(static_buffer);
     // const unsigned int *arr =
     // reinterpret_cast<const unsigned int *>(static_buffer.data());
@@ -36,27 +36,27 @@ void Orin::getPose() {
       std::cout << static_cast<int>(byte) << ", ";
     }
     std::cout << std::endl;
-    // if (static_buffer[0] != std::byte{255}) {
-    //   std::cout << "Invalid response" << std::endl;
-    //   return;
-    // }
-    // float x;
-    // float y;
-    // float z;
-    // float roll;
-    // float pitch;
-    // float yaw;
-    // memcpy(&x, &arr[1], sizeof(float));
-    // memcpy(&y, &arr[5], sizeof(float));
-    // memcpy(&z, &arr[9], sizeof(float));
-    // memcpy(&roll, &arr[13], sizeof(float));
-    // memcpy(&pitch, &arr[17], sizeof(float));
-    // memcpy(&yaw, &arr[21], sizeof(float));
-    // pose.x = x;
-    // pose.y = y;
-    // pose.z = z;
-    // pose.roll = roll;
-    // pose.pitch = pitch;
-    // pose.yaw = yaw;
+    if (static_buffer[0] != std::byte{255}) {
+      std::cout << "Invalid response" << std::endl;
+      return;
+    }
+    float x;
+    float y;
+    float z;
+    float roll;
+    float pitch;
+    float yaw;
+    memcpy(&x, &static_buffer[1], sizeof(float));
+    memcpy(&y, &static_buffer[5], sizeof(float));
+    memcpy(&z, &static_buffer[9], sizeof(float));
+    memcpy(&roll, &static_buffer[13], sizeof(float));
+    memcpy(&pitch, &static_buffer[17], sizeof(float));
+    memcpy(&yaw, &static_buffer[21], sizeof(float));
+    pose.x = x;
+    pose.y = y;
+    pose.z = z;
+    pose.roll = roll;
+    pose.pitch = pitch;
+    pose.yaw = yaw;
   }
 }
