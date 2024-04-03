@@ -41,8 +41,9 @@ RobotContainer::RobotContainer() {
         // want a positive value when we pull to the left (remember, CCW is
         // positive in mathematics). Xbox controllers return positive values
         // when you pull to the right by default.
-        const auto rot = -frc::ApplyDeadband(m_controller.GetRawAxis(5), KDeadband) *
-                         kMaxAngularSpeed;
+        const auto rot =
+            -frc::ApplyDeadband(m_controller.GetRawAxis(5), KDeadband) *
+            kMaxAngularSpeed;
         // const auto rot = -m_controller.GetZ() *
         //                  kMaxAngularSpeed;
         m_swerve.driveFieldRelative(frc::ChassisSpeeds{xSpeed, ySpeed, rot});
@@ -51,10 +52,28 @@ RobotContainer::RobotContainer() {
 
   m_arm.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        // Get the z axis of the controller, then make 1 go to kArmDownTurns and -1 go to kArmUpTurns
-        m_arm.SetDesiredPosition((-m_controller.GetZ()+1.0)/2.0 * (kArmUpTurns - kArmDownTurns) + kArmDownTurns);
+        // Get the z axis of the controller, then make 1 go to kArmDownTurns and
+        // -1 go to kArmUpTurns
+        m_arm.SetDesiredPosition((-m_controller.GetZ() + 1.0) / 2.0 *
+                                     (kArmUpTurns - kArmDownTurns) +
+                                 kArmDownTurns);
       },
       {&m_arm}));
+
+  m_grabber.SetDefaultCommand(frc2::RunCommand(
+      [this] {
+        if (m_controller.GetRawButton(kGrabberButton)) {
+          m_grabber.SetSpeed(kGrabberSpeed);
+        } else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
+          m_grabber.SetSpeed(-kGrabberSpeed);
+        } else if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
+                   !m_grabber.IsFullyInserted()) {
+          m_grabber.SetSpeed(kGrabberSpeed);
+        } else {
+          m_grabber.SetSpeed(0.0);
+        }
+      },
+      {&m_grabber}));
 
   // Configure the button bindings
   ConfigureBindings();
@@ -63,14 +82,30 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureBindings() {
   // frc2::JoystickButton(&m_controller, kIntakeDownButton)
   //     .OnTrue(
-  //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns); }));
+  //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns);
+  //         }));
   // frc2::JoystickButton(&m_controller, kIntakeUpButton)
   //     .OnTrue(
   //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
-  frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnTrue(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(kGabberSpeed); }));
-  frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnTrue(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(kGabberSpeed);
+  //     }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
+  // frc2::JoystickButton(&m_controller, kGrabberOutakeButton)
+  //     .OnTrue(
+  //         frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(-kGabberSpeed); }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
+  // frc2::JoystickButton(&m_controller, kGrabberAutoIntakeButton)
+  //     .WhileTrue(frc2::cmd::Run([this] {
+  //       if (!m_grabber.IsFullyInserted())
+  //         m_grabber.SetSpeed(-kGabberSpeed);
+  //       else
+  //         m_grabber.SetSpeed(0.0);
+  //     }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
   // // Add a button to run the example auto to SmartDashboard, this will also
   // be in the GetAutonomousCommand method below exampleAuto =
   // PathPlannerAuto("Example Auto").ToPtr().Unwrap();
