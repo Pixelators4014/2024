@@ -98,13 +98,13 @@ static constexpr auto kArmVoltageClosedLoopRampPeriod = 0.1;
 static constexpr auto kIntakeUpButton = 1;
 static constexpr auto kIntakeDownButton = 2;
 
-static constexpr auto kGrabberButton = 1;
+static constexpr auto kGrabberButton = 3;
 static constexpr auto kGrabberOutakeButton = 2;
-static constexpr auto kGrabberAutoIntakeButton = 3;
+static constexpr auto kGrabberAutoIntakeButton = 1;
 static constexpr auto kGrabberMotorID = 31;
 static constexpr auto kGabberSpeed = 0.5;
 static constexpr auto KGrabberMotorInverted =
     ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 static constexpr auto kLowerBreakBeamID = 0;
-static constexpr auto kUpperBreakBeamID = 2;
+static constexpr auto kUpperBreakBeamID = 3;
 #endif

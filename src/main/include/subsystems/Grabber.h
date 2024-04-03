@@ -31,6 +31,11 @@ private:
   // declared private and exposed only through public methods.
 
   ctre::phoenix6::hardware::TalonFX m_motor;
+  // frc::DigitalInput beam0{0};
+  // frc::DigitalInput beam1{1};
+  // frc::DigitalInput beam2{2};
+  // frc::DigitalInput beam3{3};
+
   frc::DigitalInput lowerBreakBeam{kLowerBreakBeamID};
   frc::DigitalInput upperBreakBeam{kUpperBreakBeamID};
 
