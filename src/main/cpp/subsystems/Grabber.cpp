@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Grabber.h"
-#include "Constants.h"
 
 Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {
   m_motor.SetInverted(KGrabberMotorInverted);
@@ -11,6 +10,14 @@ Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {
 
 void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
   m_motor.SetControl(driveDutyCycle.WithOutput(output));
+}
+
+bool Grabber::IsLowerBeamBroken() { return lowerBreakBeam.Get(); }
+
+bool Grabber::IsUpperBeamBroken() { return upperBreakBeam.Get(); }
+
+bool Grabber::IsFullyInserted() {
+  return !IsLowerBeamBroken() && IsUpperBeamBroken();
 }
 
 // This method will be called once per scheduler run
