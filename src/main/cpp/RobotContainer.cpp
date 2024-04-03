@@ -60,6 +60,21 @@ RobotContainer::RobotContainer() {
       },
       {&m_arm}));
 
+  m_grabber.SetDefaultCommand(frc2::RunCommand(
+      [this] {
+        if (m_controller.GetRawButton(kGrabberButton)) {
+          m_grabber.SetSpeed(kGrabberSpeed);
+        } else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
+          m_grabber.SetSpeed(-kGrabberSpeed);
+        } else if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
+                   !m_grabber.IsFullyInserted()) {
+          m_grabber.SetSpeed(kGrabberSpeed);
+        } else {
+          m_grabber.SetSpeed(0.0);
+        }
+      },
+      {&m_grabber}));
+
   // Configure the button bindings
   ConfigureBindings();
 }
@@ -72,24 +87,25 @@ void RobotContainer::ConfigureBindings() {
   // frc2::JoystickButton(&m_controller, kIntakeUpButton)
   //     .OnTrue(
   //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmUpTurns); }));
-  frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnTrue(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(kGabberSpeed); }));
-  frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
-  frc2::JoystickButton(&m_controller, kGrabberOutakeButton)
-      .OnTrue(
-          frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(-kGabberSpeed); }));
-  frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
-  frc2::JoystickButton(&m_controller, kGrabberAutoIntakeButton)
-      .WhileTrue(frc2::cmd::Run([this] {
-        if (!m_grabber.IsFullyInserted())
-          m_grabber.SetSpeed(-kGabberSpeed);
-        else
-          m_grabber.SetSpeed(0.0);
-      }));
-  frc2::JoystickButton(&m_controller, kGrabberButton)
-      .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnTrue(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(kGabberSpeed);
+  //     }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
+  // frc2::JoystickButton(&m_controller, kGrabberOutakeButton)
+  //     .OnTrue(
+  //         frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(-kGabberSpeed); }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
+  // frc2::JoystickButton(&m_controller, kGrabberAutoIntakeButton)
+  //     .WhileTrue(frc2::cmd::Run([this] {
+  //       if (!m_grabber.IsFullyInserted())
+  //         m_grabber.SetSpeed(-kGabberSpeed);
+  //       else
+  //         m_grabber.SetSpeed(0.0);
+  //     }));
+  // frc2::JoystickButton(&m_controller, kGrabberButton)
+  //     .OnFalse(frc2::cmd::RunOnce([this] { m_grabber.SetSpeed(0.0); }));
   // // Add a button to run the example auto to SmartDashboard, this will also
   // be in the GetAutonomousCommand method below exampleAuto =
   // PathPlannerAuto("Example Auto").ToPtr().Unwrap();
