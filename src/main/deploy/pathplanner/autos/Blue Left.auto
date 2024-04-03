@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4295563332984829,
-      "y": 5.554300773339566
+      "x": 2,
+      "y": 2
     },
-    "rotation": -4.014175695411087
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Auto"
+            "pathName": "Blue Left"
           }
         }
       ]
