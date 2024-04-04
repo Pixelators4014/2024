@@ -17,7 +17,7 @@
 
 using namespace pathplanner;
 
-RobotContainer::RobotContainer() : m_swerve(), m_arm(), m_grabber(), m_orin() {
+RobotContainer::RobotContainer() : m_swerve(), m_arm(), m_grabber() {
   // Register named commands
   // NamedCommands::registerCommand("marker1", frc2::cmd::Print("Passed marker
   // 1")); NamedCommands::registerCommand("marker2", frc2::cmd::Print("Passed

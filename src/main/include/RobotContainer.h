@@ -10,7 +10,7 @@
 #include "subsystems/Arm.h"
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Grabber.h"
-#include "subsystems/Orin.h"
+// #include "subsystems/Orin.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -29,7 +29,7 @@ private:
   Drivetrain m_swerve;
   Arm m_arm;
   Grabber m_grabber;
-  Orin m_orin;
+  // Orin m_orin;
   frc::Joystick m_controller{kControllerPort};
 
   // std::unique_ptr<frc2::Command> exampleAuto;
