@@ -46,12 +46,6 @@ public:
 
     void UpdateOdometry();
 
-    frc::SwerveDriveOdometry<4> m_odometry{
-            m_kinematics,
-            m_IMU.GetAngle(),
-            {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-             m_backLeft.GetPosition(), m_backRight.GetPosition()}};
-
 private:
     frc::Translation2d m_frontLeftLocation{kRobotRadius, kRobotRadius};
     frc::Translation2d m_frontRightLocation{kRobotRadius, -kRobotRadius};
@@ -72,6 +66,12 @@ private:
     frc::SwerveDriveKinematics<4> m_kinematics{
             m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation,
             m_backRightLocation};
+
+    frc::SwerveDriveOdometry<4> m_odometry{
+            m_kinematics,
+            m_IMU.GetAngle(),
+            {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+             m_backLeft.GetPosition(), m_backRight.GetPosition()}};
 
 
     frc::Field2d field;

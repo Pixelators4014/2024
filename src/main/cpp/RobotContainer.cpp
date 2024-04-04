@@ -41,59 +41,59 @@ RobotContainer::RobotContainer() {
   //           return m_arm.GetPosition() > (kArmUpTurns - kArmTurnTolerance);
   //         },
   //         {&m_arm})));
-  m_swerve.SetDefaultCommand(frc2::RunCommand(
-      [this] {
-        const auto xSpeed =
-            -frc::ApplyDeadband(m_controller.GetY(), KDeadband) * kMaxSpeed;
-        //  const auto xSpeed = m_controller.GetY()*
-        //                 kMaxSpeed;
+  // m_swerve.SetDefaultCommand(frc2::RunCommand(
+  //     [this] {
+  //       const auto xSpeed =
+  //           -frc::ApplyDeadband(m_controller.GetY(), KDeadband) * kMaxSpeed;
+  //       //  const auto xSpeed = m_controller.GetY()*
+  //       //                 kMaxSpeed;
 
-        // Get the y speed or sideways/strafe speed. We are inverting this
-        // because we want a positive value when we pull to the left. Xbox
-        // controllers return positive values when you pull to the right by
-        // default.
-        const auto ySpeed =
-            -frc::ApplyDeadband(m_controller.GetX(), KDeadband) * kMaxSpeed;
-        // const auto ySpeed = -m_controller.GetX() *
-        //                     kMaxSpeed;
+  //       // Get the y speed or sideways/strafe speed. We are inverting this
+  //       // because we want a positive value when we pull to the left. Xbox
+  //       // controllers return positive values when you pull to the right by
+  //       // default.
+  //       const auto ySpeed =
+  //           -frc::ApplyDeadband(m_controller.GetX(), KDeadband) * kMaxSpeed;
+  //       // const auto ySpeed = -m_controller.GetX() *
+  //       //                     kMaxSpeed;
 
-        // Get the rate of angular rotation. We are inverting this because we
-        // want a positive value when we pull to the left (remember, CCW is
-        // positive in mathematics). Xbox controllers return positive values
-        // when you pull to the right by default.
-        const auto rot =
-            -frc::ApplyDeadband(m_controller.GetRawAxis(5), KDeadband) *
-            kMaxAngularSpeed;
-        // const auto rot = -m_controller.GetZ() *
-        //                  kMaxAngularSpeed;
-        m_swerve.driveFieldRelative(frc::ChassisSpeeds{xSpeed, ySpeed, rot});
-      },
-      {&m_swerve}));
+  //       // Get the rate of angular rotation. We are inverting this because we
+  //       // want a positive value when we pull to the left (remember, CCW is
+  //       // positive in mathematics). Xbox controllers return positive values
+  //       // when you pull to the right by default.
+  //       const auto rot =
+  //           -frc::ApplyDeadband(m_controller.GetRawAxis(5), KDeadband) *
+  //           kMaxAngularSpeed;
+  //       // const auto rot = -m_controller.GetZ() *
+  //       //                  kMaxAngularSpeed;
+  //       m_swerve.driveFieldRelative(frc::ChassisSpeeds{xSpeed, ySpeed, rot});
+  //     },
+  //     {&m_swerve}));
 
-  m_arm.SetDefaultCommand(frc2::RunCommand(
-      [this] {
-        // Get the z axis of the controller, then make 1 go to kArmDownTurns and
-        // -1 go to kArmUpTurns
-        m_arm.SetDesiredPosition((-m_controller.GetZ() + 1.0) / 2.0 *
-                                     (kArmUpTurns - kArmDownTurns) +
-                                 kArmDownTurns);
-      },
-      {&m_arm}));
+  // m_arm.SetDefaultCommand(frc2::RunCommand(
+  //     [this] {
+  //       // Get the z axis of the controller, then make 1 go to kArmDownTurns and
+  //       // -1 go to kArmUpTurns
+  //       m_arm.SetDesiredPosition((-m_controller.GetZ() + 1.0) / 2.0 *
+  //                                    (kArmUpTurns - kArmDownTurns) +
+  //                                kArmDownTurns);
+  //     },
+  //     {&m_arm}));
 
-  m_grabber.SetDefaultCommand(frc2::RunCommand(
-      [this] {
-        if (m_controller.GetRawButton(kGrabberButton)) {
-          m_grabber.SetSpeed(kGrabberSpeed);
-        } else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
-          m_grabber.SetSpeed(-kGrabberSpeed);
-        } else if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
-                   !m_grabber.IsFullyInserted()) {
-          m_grabber.SetSpeed(kGrabberSpeed);
-        } else {
-          m_grabber.SetSpeed(0);
-        }
-      },
-      {&m_grabber}));
+  // m_grabber.SetDefaultCommand(frc2::RunCommand(
+  //     [this] {
+  //       if (m_controller.GetRawButton(kGrabberButton)) {
+  //         m_grabber.SetSpeed(kGrabberSpeed);
+  //       } else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
+  //         m_grabber.SetSpeed(-kGrabberSpeed);
+  //       } else if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
+  //                  !m_grabber.IsFullyInserted()) {
+  //         m_grabber.SetSpeed(kGrabberSpeed);
+  //       } else {
+  //         m_grabber.SetSpeed(0);
+  //       }
+  //     },
+  //     {&m_grabber}));
 
   // Configure the button bindings
   ConfigureBindings();
