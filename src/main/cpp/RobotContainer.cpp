@@ -17,30 +17,30 @@
 
 using namespace pathplanner;
 
-RobotContainer::RobotContainer() : m_swerve(), m_arm(), m_grabber() {
+RobotContainer::RobotContainer() {
   // Register named commands
   // NamedCommands::registerCommand("marker1", frc2::cmd::Print("Passed marker
   // 1")); NamedCommands::registerCommand("marker2", frc2::cmd::Print("Passed
   // marker 2")); NamedCommands::registerCommand("print hello",
   // frc2::cmd::Print("hello"));
-  NamedCommands::registerCommand(
-      "retractArm",
-      std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
-          [this] {}, [this] { m_arm.SetDesiredPosition(kArmUpTurns); },
-          [this](bool interrupted) {},
-          [this] {
-            return m_arm.GetPosition() < (kArmDownTurns + kArmTurnTolerance);
-          },
-          {&m_arm})));
-  NamedCommands::registerCommand(
-      "extendArm",
-      std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
-          [this] {}, [this] { m_arm.SetDesiredPosition(kArmDownTurns); },
-          [this](bool interrupted) {},
-          [this] {
-            return m_arm.GetPosition() > (kArmUpTurns - kArmTurnTolerance);
-          },
-          {&m_arm})));
+  // NamedCommands::registerCommand(
+  //     "retractArm",
+  //     std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
+  //         [this] {}, [this] { m_arm.SetDesiredPosition(kArmUpTurns); },
+  //         [this](bool interrupted) {},
+  //         [this] {
+  //           return m_arm.GetPosition() < (kArmDownTurns + kArmTurnTolerance);
+  //         },
+  //         {&m_arm})));
+  // NamedCommands::registerCommand(
+  //     "extendArm",
+  //     std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
+  //         [this] {}, [this] { m_arm.SetDesiredPosition(kArmDownTurns); },
+  //         [this](bool interrupted) {},
+  //         [this] {
+  //           return m_arm.GetPosition() > (kArmUpTurns - kArmTurnTolerance);
+  //         },
+  //         {&m_arm})));
   m_swerve.SetDefaultCommand(frc2::RunCommand(
       [this] {
         const auto xSpeed =
