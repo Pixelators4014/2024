@@ -12,26 +12,26 @@
 
 class Arm : public frc2::SubsystemBase {
 public:
-    Arm();
+  Arm();
 
-    units::angle::turn_t GetPosition();
+  units::angle::turn_t GetPosition();
 
-    void retract();
-    void extend();
+  void Retract();
+  void Extend();
 
-    void SetDesiredPosition(const units::angle::turn_t turns);
+  void SetDesiredPosition(const units::angle::turn_t turns);
 
-    /**
-     * Will be called periodically whenever the CommandScheduler runs.
-     */
-    void Periodic() override;
+  /**
+   * Will be called periodically whenever the CommandScheduler runs.
+   */
+  void Periodic() override;
 
 private:
-    // Components (e.g. motor controllers and sensors) should generally be
-    // declared private and exposed only through public methods.
-    ctre::phoenix6::hardware::TalonFX m_leftMotor;
-    ctre::phoenix6::hardware::TalonFX m_rightMotor;
+  // Components (e.g. motor controllers and sensors) should generally be
+  // declared private and exposed only through public methods.
+  ctre::phoenix6::hardware::TalonFX m_leftMotor;
+  ctre::phoenix6::hardware::TalonFX m_rightMotor;
 
-    ctre::phoenix6::controls::PositionVoltage leftAnglePosition;
-    ctre::phoenix6::controls::PositionVoltage rightAnglePosition;
+  ctre::phoenix6::controls::PositionVoltage leftAnglePosition;
+  ctre::phoenix6::controls::PositionVoltage rightAnglePosition;
 };

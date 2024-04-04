@@ -75,8 +75,8 @@ static constexpr auto kBackRightAngleOffset = -0.223_tr;
 static constexpr auto kLeftArmMotorID = 21;
 static constexpr auto kRightArmMotorID = 22;
 static constexpr auto kArmGearRatio = 35.0; // TODO: Calculate this
-static constexpr auto kArmUpTurns = .25_tr;
-static constexpr auto kArmDownTurns = 0.0_tr;
+static constexpr auto kArmUpTurns = 115_tr / 360;
+static constexpr auto kArmDownTurns = 0.05_tr;
 static constexpr auto kLeftArmMotorInverted =
     ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 static constexpr auto kRightArmMotorInverted =
