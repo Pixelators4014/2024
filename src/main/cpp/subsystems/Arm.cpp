@@ -10,7 +10,7 @@ Arm::Arm()
         : m_leftMotor(kLeftArmMotorID), m_rightMotor(kRightArmMotorID),
           leftAnglePosition(0_tr), rightAnglePosition(0_tr) {
 
-ctre::phoenix6::configs::TalonFXConfiguration left_motor_FX_config =
+    ctre::phoenix6::configs::TalonFXConfiguration left_motor_FX_config =
             ctre::phoenix6::configs::TalonFXConfiguration();
     ctre::phoenix6::configs::TalonFXConfiguration right_motor_FX_config =
             ctre::phoenix6::configs::TalonFXConfiguration();
