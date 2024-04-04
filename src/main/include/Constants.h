@@ -95,6 +95,7 @@ static constexpr auto kArmVoltageOpenLoopRampPeriod = 0.1;
 static constexpr auto kArmDutyCycleClosedLoopRampPeriod = 0.1;
 static constexpr auto kArmVoltageClosedLoopRampPeriod = 0.1;
 
+static constexpr auto kMoveToAmpButton = 4;
 static constexpr auto kGrabberButton = 3;
 static constexpr auto kGrabberOutakeButton = 2;
 static constexpr auto kGrabberAutoIntakeButton = 1;

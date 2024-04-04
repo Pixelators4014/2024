@@ -83,7 +83,9 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-  // frc2::JoystickButton(&m_controller, kIntakeDownButton)
+    frc2::JoystickButton(&m_controller, kMoveToAmpButton).OnTrue(frc::cmd::Run([this] {}));
+
+    // frc2::JoystickButton(&m_controller, kIntakeDownButton)
   //     .OnTrue(
   //         frc2::cmd::Run([this] { m_arm.SetDesiredPosition(kArmDownTurns);
   //         }));
