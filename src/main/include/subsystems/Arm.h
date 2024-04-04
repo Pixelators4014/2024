@@ -5,6 +5,7 @@
 #pragma once
 
 #include <ctre/phoenix6/TalonFX.hpp>
+#include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/SubsystemBase.h>
 
 #include "Constants.h"
@@ -15,9 +16,6 @@ public:
   Arm();
 
   units::angle::turn_t GetPosition();
-
-  void Retract();
-  void Extend();
 
   void SetDesiredPosition(const units::angle::turn_t turns);
 

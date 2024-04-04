@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Arm.h"
+#include "frc2/command/FunctionalCommand.h"
 #include "units/angle.h"
 
 Arm::Arm()
@@ -79,10 +80,6 @@ void Arm::SetDesiredPosition(units::angle::turn_t turns) {
   m_leftMotor.SetControl(leftAnglePosition.WithPosition(turns));
   m_rightMotor.SetControl(rightAnglePosition.WithPosition(turns));
 }
-
-void Arm::Retract() { Arm::SetDesiredPosition(kArmDownTurns); }
-
-void Arm::Extend() { Arm::SetDesiredPosition(kArmUpTurns); }
 
 units::angle::turn_t Arm::GetPosition() {
   return m_leftMotor.GetPosition().GetValue();
