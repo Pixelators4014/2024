@@ -14,6 +14,18 @@ void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
     m_motor.SetControl(driveDutyCycle.WithOutput(output));
 }
 
+void Grabber::Off() {
+    Grabber::SetSpeed(0.0);
+}
+
+void Grabber::Forward() {
+    Grabber::SetSpeed(0.5);
+}
+
+void Grabber::Reverse() {
+    Grabber::SetSpeed(-0.5);
+}
+
 bool Grabber::IsLowerBeamBroken() {
     return lowerBreakBeam.Get();
 }

@@ -66,14 +66,14 @@ RobotContainer::RobotContainer() {
     m_grabber.SetDefaultCommand(frc2::RunCommand(
             [this] {
                 if (m_controller.GetRawButton(kGrabberButton)) {
-                    m_grabber.SetSpeed(kGrabberSpeed);
+                    m_grabber.Forward();
                 } else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
-                    m_grabber.SetSpeed(-kGrabberSpeed);
+                    m_grabber.Reverse();
                 } else if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
                            !m_grabber.IsFullyInserted()) {
-                    m_grabber.SetSpeed(kGrabberSpeed);
+                    m_grabber.Forward();
                 } else {
-                    m_grabber.SetSpeed(0.0);
+                    m_grabber.Off();
                 }
             },
             {&m_grabber}));

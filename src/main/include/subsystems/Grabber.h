@@ -17,6 +17,10 @@ public:
 
   void SetSpeed(const units::dimensionless::scalar_t output);
 
+  void Off();
+  void Forward();
+  void Reverse();
+
   bool IsLowerBeamBroken();
   bool IsUpperBeamBroken();
   bool IsFullyInserted();
