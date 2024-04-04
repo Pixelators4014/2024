@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
+#include "<memory>"
 #include <frc/MathUtil.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
@@ -21,6 +22,8 @@ RobotContainer::RobotContainer() {
   // 1")); NamedCommands::registerCommand("marker2", frc2::cmd::Print("Passed
   // marker 2")); NamedCommands::registerCommand("print hello",
   // frc2::cmd::Print("hello"));
+  NamedCommands::registerCommand("extendArm", std::move(m_arm.extend()));
+    NamedCommands::registerCommand("retractArm", std::move(m_arm.retract()));
   m_swerve.SetDefaultCommand(frc2::RunCommand(
       [this] {
         const auto xSpeed =

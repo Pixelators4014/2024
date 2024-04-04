@@ -16,6 +16,9 @@ public:
 
     units::angle::turn_t GetPosition();
 
+    void retract();
+    void extend();
+
     void SetDesiredPosition(const units::angle::turn_t turns);
 
     /**

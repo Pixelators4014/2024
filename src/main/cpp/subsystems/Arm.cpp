@@ -62,11 +62,19 @@ ctre::phoenix6::configs::TalonFXConfiguration left_motor_FX_config =
 
     m_leftMotor.SetPosition(0_tr);
     m_rightMotor.SetPosition(0_tr);
-          }
+}
 
 void Arm::SetDesiredPosition(units::angle::turn_t turns) {
     m_leftMotor.SetControl(leftAnglePosition.WithPosition(turns));
     m_rightMotor.SetControl(rightAnglePosition.WithPosition(turns));
+}
+
+void Arm::Retract() {
+    Arm::SetDesiredPosition(0_tr);
+}
+
+void Arm::Extend() {
+    Arm::SetDesiredPosition(5_tr);
 }
 
 units::angle::turn_t Arm::GetPosition() {
