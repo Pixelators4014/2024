@@ -14,7 +14,6 @@
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
-#include <utility>
 
 using namespace pathplanner;
 
@@ -84,14 +83,14 @@ RobotContainer::RobotContainer() : m_swerve(), m_arm(), m_grabber(), m_orin() {
   m_grabber.SetDefaultCommand(frc2::RunCommand(
       [this] {
         if (m_controller.GetRawButton(kGrabberButton)) {
-          m_grabber.Forward();
+          m_grabber.SetSpeed(kGrabberSpeed);
         } else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
-          m_grabber.Reverse();
+          m_grabber.SetSpeed(-kGrabberSpeed);
         } else if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
                    !m_grabber.IsFullyInserted()) {
-          m_grabber.Forward();
+          m_grabber.SetSpeed(kGrabberSpeed);
         } else {
-          m_grabber.Off();
+          m_grabber.SetSpeed(0);
         }
       },
       {&m_grabber}));
@@ -180,5 +179,5 @@ void RobotContainer::ConfigureBindings() {
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return PathPlannerAuto("New Auto").ToPtr();
+  return PathPlannerAuto("Blue Left").ToPtr();
 }

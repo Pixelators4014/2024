@@ -32,11 +32,11 @@ private:
   Orin m_orin;
   frc::Joystick m_controller{kControllerPort};
 
-  std::unique_ptr<frc2::Command> exampleAuto;
-  std::unique_ptr<frc2::Command> pathfindToPickup;
-  std::unique_ptr<frc2::Command> pathfindToScore;
-  std::unique_ptr<frc2::Command> onTheFly;
-  std::unique_ptr<frc2::Command> followOnTheFly;
+  // std::unique_ptr<frc2::Command> exampleAuto;
+  // std::unique_ptr<frc2::Command> pathfindToPickup;
+  // std::unique_ptr<frc2::Command> pathfindToScore;
+  // std::unique_ptr<frc2::Command> onTheFly;
+  // std::unique_ptr<frc2::Command> followOnTheFly;
 
   void ConfigureBindings();
 };

@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/Arm.h"
-#include "frc2/command/FunctionalCommand.h"
 #include "units/angle.h"
 
 Arm::Arm()

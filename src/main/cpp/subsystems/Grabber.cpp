@@ -2,49 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include "subsystems/Grabber.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
-#include "subsystems/Grabber.h"
 
 Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {
-    m_motor.SetInverted(KGrabberMotorInverted);
+  m_motor.SetInverted(KGrabberMotorInverted);
 }
 
 void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
-    m_motor.SetControl(driveDutyCycle.WithOutput(output));
-}
-
-void Grabber::Off() {
-    Grabber::SetSpeed(0.0);
-}
-
-void Grabber::Forward() {
-    Grabber::SetSpeed(0.5);
-}
-
-void Grabber::Reverse() {
-    Grabber::SetSpeed(-0.5);
-}
-
-bool Grabber::IsLowerBeamBroken() {
-    return lowerBreakBeam.Get();
-}
-
-bool Grabber::IsUpperBeamBroken() {
-    return upperBreakBeam.Get();
+  m_motor.SetControl(driveDutyCycle.WithOutput(output));
 }
 
 bool Grabber::IsFullyInserted() {
-    return !IsLowerBeamBroken() && IsUpperBeamBroken();
+  return lowerBreakBeam.Get() && !upperBreakBeam.Get();
 }
 
 // This method will be called once per scheduler run
 void Grabber::Periodic() {
-    std::cout << lowerBreakBeam.Get() << upperBreakBeam.Get() << std::endl;
-    // frc::SmartDashboard::PutBoolean("0", beam0.Get());
-    // frc::SmartDashboard::PutBoolean("1", beam1.Get());
-    // frc::SmartDashboard::PutBoolean("2", beam2.Get());
-    // frc::SmartDashboard::PutBoolean("3", beam3.Get());
-    // frc::SmartDashboard::PutBoolean("down", IsLowerBeamBroken());
-    // frc::SmartDashboard::PutBoolean("up", IsUpperBeamBroken());
+  std::cout << lowerBreakBeam.Get() << upperBreakBeam.Get() << std::endl;
+  // frc::SmartDashboard::PutBoolean("0", beam0.Get());
+  // frc::SmartDashboard::PutBoolean("1", beam1.Get());
+  // frc::SmartDashboard::PutBoolean("2", beam2.Get());
+  // frc::SmartDashboard::PutBoolean("3", beam3.Get());
+  // frc::SmartDashboard::PutBoolean("down", IsLowerBeamBroken());
+  // frc::SmartDashboard::PutBoolean("up", IsUpperBeamBroken());
 }
