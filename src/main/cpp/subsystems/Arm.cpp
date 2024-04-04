@@ -74,7 +74,7 @@ void Arm::Retract() {
 }
 
 void Arm::Extend() {
-    Arm::SetDesiredPosition(5_tr);
+    Arm::SetDesiredPosition(.25_tr);
 }
 
 units::angle::turn_t Arm::GetPosition() {
