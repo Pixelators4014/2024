@@ -7,34 +7,32 @@
 #include "subsystems/Grabber.h"
 
 Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {
-  m_motor.SetInverted(KGrabberMotorInverted);
+    m_motor.SetInverted(KGrabberMotorInverted);
 }
 
 void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
-  m_motor.SetControl(driveDutyCycle.WithOutput(output));
+    m_motor.SetControl(driveDutyCycle.WithOutput(output));
 }
 
-bool Grabber::IsLowerBeamBroken() { 
-  // return true;
-  return lowerBreakBeam.Get(); 
-  }
+bool Grabber::IsLowerBeamBroken() {
+    return lowerBreakBeam.Get();
+}
 
-bool Grabber::IsUpperBeamBroken() { 
-  // return true;
-  return upperBreakBeam.Get(); 
-  }
+bool Grabber::IsUpperBeamBroken() {
+    return upperBreakBeam.Get();
+}
 
 bool Grabber::IsFullyInserted() {
-  return !IsLowerBeamBroken() && IsUpperBeamBroken();
+    return !IsLowerBeamBroken() && IsUpperBeamBroken();
 }
 
 // This method will be called once per scheduler run
 void Grabber::Periodic() {
-  std::cout << lowerBreakBeam.Get() << upperBreakBeam.Get() << std::endl;
-  // frc::SmartDashboard::PutBoolean("0", beam0.Get());
-  // frc::SmartDashboard::PutBoolean("1", beam1.Get());
-  // frc::SmartDashboard::PutBoolean("2", beam2.Get());
-  // frc::SmartDashboard::PutBoolean("3", beam3.Get());
-  // frc::SmartDashboard::PutBoolean("down", IsLowerBeamBroken());
-  // frc::SmartDashboard::PutBoolean("up", IsUpperBeamBroken());
+    std::cout << lowerBreakBeam.Get() << upperBreakBeam.Get() << std::endl;
+    // frc::SmartDashboard::PutBoolean("0", beam0.Get());
+    // frc::SmartDashboard::PutBoolean("1", beam1.Get());
+    // frc::SmartDashboard::PutBoolean("2", beam2.Get());
+    // frc::SmartDashboard::PutBoolean("3", beam3.Get());
+    // frc::SmartDashboard::PutBoolean("down", IsLowerBeamBroken());
+    // frc::SmartDashboard::PutBoolean("up", IsUpperBeamBroken());
 }
