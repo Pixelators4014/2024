@@ -9,12 +9,12 @@
 #include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <iostream>
 #include <memory>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <pathplanner/lib/path/PathPlannerPath.h>
-#include <iostream>
 
 using namespace pathplanner;
 
@@ -27,7 +27,7 @@ RobotContainer::RobotContainer() {
   NamedCommands::registerCommand(
       "extendArm",
       std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
-          [this] {std::cout << "test1\n";}, [this] { m_arm.SetDesiredPosition(kArmUpTurns); std::cout << "test4\n";},
+          [this] {}, [this] { m_arm.SetDesiredPosition(kArmUpTurns); },
           [this](bool interrupted) {},
           [this] {
             return m_arm.GetPosition() > (kArmUpTurns - kArmTurnTolerance);
@@ -36,7 +36,7 @@ RobotContainer::RobotContainer() {
   NamedCommands::registerCommand(
       "retractArm",
       std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
-          [this] {std::cout << "test2\n";}, [this] { m_arm.SetDesiredPosition(kArmDownTurns); std::cout << "test5\n";},
+          [this] {}, [this] { m_arm.SetDesiredPosition(kArmDownTurns); },
           [this](bool interrupted) {},
           [this] {
             return m_arm.GetPosition() < (kArmDownTurns + kArmTurnTolerance);
@@ -45,12 +45,17 @@ RobotContainer::RobotContainer() {
   NamedCommands::registerCommand(
       "moveGrabber",
       std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
-          [this] {m_grabber.ResetPosition(); std::cout << "test3\n";}, [this] { m_grabber.SetSpeed(kGrabberSpeed); std::cout << "test6\n";},
+          [this] { m_grabber.ResetPosition(); },
+          [this] { m_grabber.SetSpeed(kGrabberSpeed); },
           [this](bool interrupted) {},
-          [this] {
-            return m_grabber.GetPosition() > kGrabberScoreTurns;
-          },
+          [this] { return m_grabber.GetPosition() > kGrabberScoreTurns; },
           {&m_grabber})));
+  NamedCommands::registerCommand(
+      "intakeGrabber",
+      std::make_shared<frc2::FunctionalCommand>(frc2::FunctionalCommand(
+          [this] {}, [this] { m_grabber.SetSpeed(kGrabberSpeed); },
+          [this](bool interrupted) {},
+          [this] { return m_grabber.IsFullyInserted(); }, {&m_grabber})));
   m_swerve.SetDefaultCommand(frc2::RunCommand(
       [this] {
         const auto xSpeed =
@@ -93,14 +98,14 @@ RobotContainer::RobotContainer() {
   m_grabber.SetDefaultCommand(frc2::RunCommand(
       [this] {
         if (m_controller.GetRawButton(kGrabberAutoIntakeButton) &&
-                   !m_grabber.IsFullyInserted()) {
+            !m_grabber.IsFullyInserted()) {
           m_grabber.SetSpeed(kGrabberSpeed);
-        } 
+        }
         // else if (m_controller.GetRawButton(kGrabberOutakeButton)) {
         //   m_grabber.SetSpeed(-kGrabberSpeed);
         // } else if (m_controller.GetRawButton(kGrabberButton)) {
         //   m_grabber.SetSpeed(kGrabberSpeed);
-        // } 
+        // }
         else {
           m_grabber.SetSpeed(kGrabberSpeed * m_controller.GetRawAxis(6));
         }

@@ -14,7 +14,50 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Left"
+            "pathName": "Blue Amp 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "extendArm"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveGrabber"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "retractArm"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Blue Amp 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeGrabber"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue Amp 3"
           }
         },
         {
