@@ -15,6 +15,8 @@ class Grabber : public frc2::SubsystemBase {
 public:
   Grabber();
 
+  void ResetPosition();
+  units::turn_t GetPosition();
   void SetSpeed(const units::dimensionless::scalar_t output);
 
   bool IsFullyInserted();

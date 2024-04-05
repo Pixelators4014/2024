@@ -16,6 +16,18 @@
           "data": {
             "pathName": "Blue Left"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "extendArm"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveGrabber"
+          }
         }
       ]
     }

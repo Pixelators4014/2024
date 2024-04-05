@@ -76,13 +76,13 @@ static constexpr auto kLeftArmMotorID = 21;
 static constexpr auto kRightArmMotorID = 22;
 static constexpr auto kArmGearRatio = 35.0; // TODO: Calculate this
 static constexpr auto kArmUpTurns = 115_tr / 360;
-static constexpr auto kArmDownTurns = 0.05_tr;
+static constexpr auto kArmDownTurns = 0.001_tr;
 static constexpr auto kArmTurnTolerance = 0.05_tr;
 static constexpr auto kLeftArmMotorInverted =
     ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 static constexpr auto kRightArmMotorInverted =
     ctre::phoenix6::signals::InvertedValue::CounterClockwise_Positive;
-static constexpr auto kArmSlot0kP = 12.0;
+static constexpr auto kArmSlot0kP = 6.0;
 static constexpr auto kArmSlot0kI = 0.0;
 static constexpr auto kArmSlot0kD = 0.0;
 static constexpr auto kArmNeutralMode =
@@ -101,7 +101,8 @@ static constexpr auto kGrabberButton = 3;
 static constexpr auto kGrabberOutakeButton = 2;
 static constexpr auto kGrabberAutoIntakeButton = 1;
 static constexpr auto kGrabberMotorID = 31;
-static constexpr auto kGrabberSpeed = 0.5;
+static constexpr auto kGrabberSpeed = 0.3;
+static constexpr auto kGrabberScoreTurns = 100.0_tr;
 static constexpr auto KGrabberMotorInverted =
     ctre::phoenix6::signals::InvertedValue::Clockwise_Positive;
 static constexpr auto kLowerBreakBeamID = 0;

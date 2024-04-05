@@ -10,17 +10,25 @@ Grabber::Grabber() : m_motor(kGrabberMotorID), driveDutyCycle(0) {
   m_motor.SetInverted(KGrabberMotorInverted);
 }
 
+void Grabber::ResetPosition() {
+  m_motor.SetPosition(0_tr);
+}
+
+units::turn_t Grabber::GetPosition() {
+  return m_motor.GetPosition().GetValue();
+}
+
 void Grabber::SetSpeed(const units::dimensionless::scalar_t output) {
   m_motor.SetControl(driveDutyCycle.WithOutput(output));
 }
 
 bool Grabber::IsFullyInserted() {
-  return lowerBreakBeam.Get() && !upperBreakBeam.Get();
+  return !upperBreakBeam.Get();
 }
 
 // This method will be called once per scheduler run
 void Grabber::Periodic() {
-  std::cout << lowerBreakBeam.Get() << upperBreakBeam.Get() << std::endl;
+  // std::cout << lowerBreakBeam.Get() << upperBreakBeam.Get() << std::endl;
   // frc::SmartDashboard::PutBoolean("0", beam0.Get());
   // frc::SmartDashboard::PutBoolean("1", beam1.Get());
   // frc::SmartDashboard::PutBoolean("2", beam2.Get());
